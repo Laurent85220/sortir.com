@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}
+
+Hello!!!
+{% endblock %}
+
+{% block body %}
+<h1>hello world !!</h1>
+    {# Ceci est un commentaire #}
+
+    {#Creation d'une variable simple#}
+    {% set firstname='John' %}
+
+    {# Afficher cette variable#}
+    {{ firstname }}
+
+    {# Creation de tableau #}
+    {% set colors=["red","orange","blue","pink"] %}
+    {% for color in colors %}
+            {% if color!='yellow' %}
+    <div
+        style="width:100px ;height:100px; background-color: {{ color }}">
+
+    </div>
+        {% endif %}
+    {% endfor %}
+
+    {# Creation d'un objet #}
+    {% set person = {
+        "firstname": "John",
+        "lastname": "Doe"
+
+    } %}
+
+    <dl>
+        {% for key, value in person %}
+        <dt> {{ key }}</dt>
+        <dt> {{ value }}</dt>
+        {% endfor %}
+    </dl>
+
+    {# Principaux filtres sur chaine de caracteres#}
+    {#on peut chainer les filtres #}
+    {{ person.firstname|lower|capitalize|upper }}
+
+    <h2>Mes couleurs sont {{ colors|join(' ')}}</h2>
+    j'ai {{ colors|length }} couleurs.
+
+    Ma premiere couleurs est {{ colors|first }}.
+
+    {# Filtres sur les nombres#}
+    {% set price=1025.56 %}
+    <div>
+    Le Prix: {{ price|number_format(2,',', ' ') }}€
+        <br>
+        {{ price|round }}
+    </div>
+
+    {#Filtre date#}
+
+    {{ "+2 days"|date('d/m/Y H:i:s') }}
+
+
+{% endblock %}
+
