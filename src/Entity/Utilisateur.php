@@ -95,6 +95,8 @@ class Utilisateur implements UserInterface
     {
         $this->sortiesOrganisees = new ArrayCollection();
         $this->mesSorties = new ArrayCollection();
+        $this->setActif(true);
+        $this->setAdministrateur(false);
     }
 
     public function getId(): ?int
