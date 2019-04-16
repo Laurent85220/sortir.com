@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Site;
 use App\Entity\Utilisateur;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,18 +15,18 @@ class UtilisateurType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('roles')
             ->add('password')
             ->add('nom')
             ->add('prenom')
             ->add('pseudo')
             ->add('telephone')
-            ->add('administrateur')
-            ->add('actif')
             ->add('ville')
             ->add('cp')
-            ->add('centreFormation')
-            ->add('mesSorties')
+            ->add('centreFormation', EntityType::class, [
+                'choice_label'=>'nom',
+                'label' =>'Centre de formation : ',
+                'class' =>Site::class
+            ])
         ;
     }
 
