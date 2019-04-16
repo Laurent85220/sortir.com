@@ -1,6 +1,5 @@
-*.idea/
-*var/
-*vendor/
+.idea
+var
+vendor
 .env
 .env.test
-.env
