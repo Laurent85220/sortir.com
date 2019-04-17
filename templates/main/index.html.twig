@@ -1,37 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sortie index{% endblock %}
+{% block title %}accueil{% endblock %}
 
 {% block body %}
-    <h1>Sortie index</h1>
+    <div class="Container-fluid mt-5">
+        <div class="row">
+            <div class="card col-md-8 offset-2 p-0">
+                <div  class="card-header">
+        <h1>Nos sorties</h1>
+    </div>
+    <div class="card-text mt-3 p-3">
 
-    <table class="table">
-        <thead>
+    <table class="table table-borderless table-hover">
+        <thead class=".thead-light">
         <tr>
-            <th>Id</th>
             <th>Nom</th>
-            <th>DateHeureDebut</th>
-            <th>Duree</th>
-            <th>DateLimiteInscription</th>
-            <th>InfosSortie</th>
-
+            <th>Lieu</th>
+            <th>Rendez-vous</th>
+            <th>Infos</th>
         </tr>
         </thead>
         <tbody>
         {% for sortie in sorties %}
             <tr>
-                <td>{{ sortie.id }}</td>
                 <td>{{ sortie.nom }}</td>
+                <td>{{ sortie.lieu.nom }}</td>
                 <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sortie.duree }}</td>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ sortie.infosSortie }}</td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">Il n'y a pas de sorties prévues pour le moment.</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    </div>
+    </div>
+    </div>
+    </div>
 {% endblock %}
