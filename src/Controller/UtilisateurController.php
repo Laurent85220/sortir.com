@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Sortie;
 use App\Entity\Utilisateur;
 use App\Form\RegistrationFormType;
 use App\Form\UtilisateurType;
 use App\Repository\UtilisateurRepository;
 use App\Security\Authenticator;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -125,5 +127,28 @@ class UtilisateurController extends Controller
         }
 
         return $this->redirectToRoute('utilisateur_index');
+    }
+
+    /**
+     * @Route("/(id)", name="utilisateur_ajout_sortie", methods={"GET","POST"})
+     */
+    public function ajoutMesSorties(EntityManagerInterface $entityManager, Request $request,Sortie $sortie):Response
+    {
+        /** @var Utilisateur $utilisateur */
+        $utilisateur = $this->getUser();
+        if ($utilisateur->getMesSorties()->contains($sortie)) {
+
+            $utilisateur->removeMesSorty($sortie);
+        }else{
+            $utilisateur->addMesSorty($sortie);
+        }
+        $entityManager = $this->getDoctrine()->getManager();
+
+        // Sauvegarde la relation
+        $entityManager->flush();
+
+        // Redirige l'utilisateur sur les annonces
+        return $this->redirectToRoute('home');
+
     }
 }
