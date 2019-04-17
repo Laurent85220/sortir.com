@@ -43,6 +43,7 @@ class Etat
         return $this->libelle;
     }
 
+
     public function setLibelle(string $libelle): self
     {
         $this->libelle = $libelle;
