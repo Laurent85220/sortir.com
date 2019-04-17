@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -22,6 +23,11 @@ class Utilisateur implements UserInterface
     private $id;
 
     /**
+     * @Assert\NotBlank(message="L'adresse Email est obligatoire")
+     * @Assert\Email(
+     *     message = "L'email '{{ value }}' n'est pas une adresse mail valide.",
+     *     checkMX = true
+     * )
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
@@ -38,21 +44,44 @@ class Utilisateur implements UserInterface
     private $password;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner votre nom")
+     * @Assert\Length(
+     *     min="2", max="255",
+     *     minMessage="Le nom doit faire au moins 2 charactères",
+     *     maxMessage="Le nom de téléphone doit faire 255 charactères maximum"
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $nom;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner votre prénom")
+     * @Assert\Length(
+     *     min="2", max="255",
+     *     minMessage="Le prénom doit faire au moins 2 charactères",
+     *     maxMessage="Le prénom doit faire 255 charactères maximum"
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $prenom;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le pseudo est obligatoire")
+     * @Assert\Length(
+     *     min="2", max="255",
+     *     minMessage="Le pseudo doit faire au moins 2 charactères",
+     *     maxMessage="Le pseudo doit faire 255 charactères maximum"
+     * )
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $pseudo;
 
     /**
+     * @Assert\Length(
+     *     min="8", max="15",
+     *     minMessage="Le numéro de téléphone doit faire au moins 8 charactères",
+     *     maxMessage="Le numéro de téléphone doit faire 15 charactères maximum"
+     * )
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $telephone;
@@ -68,12 +97,22 @@ class Utilisateur implements UserInterface
     private $actif;
 
     /**
+     * @Assert\Length(
+     *     min="2", max="225",
+     *     minMessage="Le nom de la ville doit faire au moins 2 charactères",
+     *     maxMessage="Le nom de la ville doit faire 255 charactères maximum"
+     * )
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $ville;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Length(
+     *     min="2", max="225",
+     *     minMessage="Le nom de la ville doit faire au moins 2 charactères",
+     *     maxMessage="Le nom de la ville doit faire 255 charactères maximum"
+     * )
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $cp;
 

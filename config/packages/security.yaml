@@ -23,7 +23,7 @@ security:
                     - App\Security\Authenticator
             logout:
                 path: logout
-                target: accueil
+                target: home
 
             remember_me:
                 secret:   '%kernel.secret%'
