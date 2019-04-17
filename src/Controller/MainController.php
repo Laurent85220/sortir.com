@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,10 +14,10 @@ class MainController extends Controller
         /**
          * @Route("/", name="home")
          */
-        public function index()
+        public function index(SortieRepository $sortieRepository): Response
         {
             return $this->render('main/index.html.twig', [
-                'controller_name' => 'MainController',
+                'sorties' => $sortieRepository->findAll(),
             ]);
         }
     /**
