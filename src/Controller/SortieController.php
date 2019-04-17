@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,13 +26,16 @@ class SortieController extends Controller
             'sorties' => $sortieRepository->findAll(),
         ]);
     }
-
+//-------------------------------------------------------------------------
     /**
      * @Route("/new", name="sortie_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(EntityManagerInterface $em, Request $request): Response
     {
         $sortie = new Sortie();
+        $etat = $em -> getRepository(Etat::class)->find('1');
+        $sortie->setEtat($etat);
+        $sortie->setOrganisateur($this->getUser());
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
@@ -47,6 +52,8 @@ class SortieController extends Controller
             'form' => $form->createView(),
         ]);
     }
+
+ //-----------------------------------------------------------------------
 
     /**
      * @Route("/{id}", name="sortie_show", methods={"GET"})

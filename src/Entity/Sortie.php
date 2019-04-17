@@ -86,7 +86,6 @@ class Sortie
         $this->dateHeureDebut->modify("+24 hours");
         // TODO: ce serait bien que la date limite d'inscription soit automatiquement modifiée en fonction de la date de début (=>JAVASCRIPT)
         $this->dateLimiteInscription = new \DateTime('now');
-
         $this->participants = new ArrayCollection();
     }
 
