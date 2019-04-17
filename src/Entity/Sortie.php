@@ -81,6 +81,12 @@ class Sortie
 
     public function __construct()
     {
+        // par défaut, la date de début est initialisée à la date du lendemain et la date de début de l'événement à la date et l'heure du jour.
+        $this->dateHeureDebut = new \DateTime('now');
+        $this->dateHeureDebut->modify("+24 hours");
+        // TODO: ce serait bien que la date limite d'inscription soit automatiquement modifiée en fonction de la date de début (=>JAVASCRIPT)
+        $this->dateLimiteInscription = new \DateTime('now');
+
         $this->participants = new ArrayCollection();
     }
 
