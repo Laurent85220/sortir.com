@@ -3,3 +3,5 @@ var
 vendor
 .env
 .env.test
+composer.lock
+symfony.lock
