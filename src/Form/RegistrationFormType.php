@@ -23,6 +23,9 @@ class RegistrationFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'label'=>'Email :'
             ])
+            ->add('oldPassword', PasswordType::class,[
+                'label'=>'Mot de passe actuel:'
+               ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
