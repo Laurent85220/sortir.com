@@ -4,6 +4,13 @@
 
 {% block body %}
     <div class="Container-fluid mt-5">
+        {% for label, messages in app.flashes %}
+            {%  for message in messages %}
+                <div class="alert-{{ label }} col-sm-4 offset-sm-4 text-center p-3">
+                    {{ message  }}
+                </div>
+            {% endfor %}
+        {% endfor %}
         <div class="row">
             <div class="card col-md-8 offset-2 p-0">
                 <div  class="card-header">
@@ -11,7 +18,8 @@
                 </div>
                 <div class="card-text mt-3 p-3">
                     {{ form_start(registrationForm) }}
-                    {{ form_row(registrationForm.email) }}
+                     {{ form_row(registrationForm.email) }}
+                    {{ form_row(registrationForm.oldPassword) }}
                     {{ form_row(registrationForm.plainPassword) }}
                     {{ form_row(registrationForm.pseudo) }}
                     {{ form_row(registrationForm.nom) }}

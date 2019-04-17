@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UtilisateurRepository")
@@ -126,6 +127,13 @@ class Utilisateur implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Sortie", mappedBy="organisateur")
      */
     private $sortiesOrganisees;
+
+    /**
+     * @SecurityAssert\UserPassword(
+     *     message = "Wrong value for your current password"
+     * )
+     */
+    protected $oldPassword;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Sortie", mappedBy="participants")
@@ -383,5 +391,20 @@ class Utilisateur implements UserInterface
         }
 
         return $this;
+    }
+    /**
+     * @return mixed
+     */
+    public function getOldPassword()
+    {
+        return $this->oldPassword;
+    }
+
+    /**
+     * @param mixed $oldPassword
+     */
+    public function setOldPassword($oldPassword): void
+    {
+        $this->oldPassword = $oldPassword;
     }
 }

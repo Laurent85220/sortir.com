@@ -8,6 +8,7 @@ use App\Form\UtilisateurType;
 use App\Repository\UtilisateurRepository;
 use App\Security\Authenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -57,7 +58,7 @@ class UtilisateurController extends Controller
     /**
      * @Route("/edition", name="utilisateur_edition", methods={"GET","POST"})
      */
-    public function edition(Request $request, AuthenticationUtils $authenticationUtils): Response
+    public function edition(Request $request, UserPasswordEncoderInterface $passwordEncoder,GuardAuthenticatorHandler $guardHandler, AuthenticationUtils $authenticationUtils): Response
     {
         $user = $this->getUser();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -68,11 +69,19 @@ class UtilisateurController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $passwordEncoder = $this->get('security.password_encoder');
 
+            if ($passwordEncoder->isPasswordValid($user, $user->getOldPassword())) {
+                $newEncodedPassword = $passwordEncoder->encodePassword($user, $form->get('plainPassword')->getData());
+                $user->setPassword($newEncodedPassword);
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash("success","Votre compte a bien été modifié ");
             return $this->redirectToRoute('utilisateur_edition', [
                 'id' => $user->getId(),
             ]);
+        }
+        } else {
+            $form->addError(new FormError('Ancien mot de passe incorrect'));
         }
 
         return $this->render('utilisateur/edition.html.twig', [
