@@ -8,6 +8,7 @@ use App\Form\RegistrationFormType;
 use App\Form\UtilisateurType;
 use App\Repository\UtilisateurRepository;
 use App\Security\Authenticator;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -131,7 +132,7 @@ class UtilisateurController extends Controller
     /**
      * @Route("/(id)", name="utilisateur_ajout_sortie", methods={"GET","POST"})
      */
-    public function ajoutMesSorties(Sortie $sortie):Response
+    public function ajoutMesSorties(EntityManagerInterface $entityManager, Request $request,Sortie $sortie):Response
     {
         /** @var Utilisateur $utilisateur */
         $utilisateur = $this->getUser();
