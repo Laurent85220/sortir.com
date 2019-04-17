@@ -56,7 +56,7 @@ class SortieController extends Controller
  //-----------------------------------------------------------------------
 
     /**
-     * @Route("/{id}", name="sortie_show", methods={"GET"})
+     * @Route("/afficher{id}", name="sortie_show", methods={"GET"})
      */
     public function show(Sortie $sortie): Response
     {

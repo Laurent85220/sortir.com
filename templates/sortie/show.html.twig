@@ -3,44 +3,54 @@
 {% block title %}Sortie{% endblock %}
 
 {% block body %}
-    <h1>Sortie</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ sortie.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ sortie.nom }}</td>
-            </tr>
-            <tr>
-                <th>DateHeureDebut</th>
-                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Duree</th>
-                <td>{{ sortie.duree }}</td>
-            </tr>
-            <tr>
-                <th>DateLimiteInscription</th>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>NbInscriptionsMax</th>
-                <td>{{ sortie.nbInscriptionsMax }}</td>
-            </tr>
-            <tr>
-                <th>InfosSortie</th>
-                <td>{{ sortie.infosSortie }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="container-fluid body">
+        <div class="col-sm-8 offset-sm-2">
+            <div class="card detail">
+                <div class="card-body ">
+                    <h2 class="text-center">Afficher une sortie</h2>
+                    <div class="row">
+                        <div class="col-md-6  mt-5">
+                            <p class="card-text"><b>Nom de la sortie : </b>{{ sortie.nom }}</p>
+                            <p class="card-text"><b>Date et heure de la sortie : </b> {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</p>
+                            <p class="card-text"><b>Date limite d'inscription</b> {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</p>
+                            <p class="card-text"><b>Durée :</b> {{ sortie.duree }}</p>
+                            <p class="card-text"><b>Nombre de places :</b> {{ sortie.nbInscriptionsMax }}</p>
+                            <p class="card-text"><b>Description et infos:</b> {{ sortie.infosSortie }}</p>
+                            <p class="card-text"><b>Ville Organisatrice : </b>{{ sortie.lieu.ville.nom }}</p>
+                            <p class="card-text"><b>Lieu : </b>{{ sortie.lieu.nom }}</p>
+                            <p class="card-text"><b>Rue : </b>{{ sortie.lieu.rue }}</p>
+                            <p class="card-text"><b>Code Postal : </b>{{ sortie.lieu.ville.cp }}</p>
+                            <p class="card-text"><b>Latitude : </b>{{ sortie.lieu.latitude }}</p>
+                            <p class="card-text"><b>Longitude : </b>{{ sortie.lieu.longitude }}</p>
+                        </div>
+                            <div class="col-md-6 mt-5">
+                                <h4 class="text-center">Liste des Participants</h4>
+                                <table class="table table-striped table-light">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Pseudo</th>
+                                        <th scope="col">Nom</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                    </div>
+                </div>
+                    <div class="card-body d-flex justify-content-center ">
+                        <a href="{{ path('sortie_index') }}" class="btn btn-primary d-flex justify-content-center mr-2">Retour</a>
+                    </div>
 
-    <a href="{{ path('sortie_index') }}">back to list</a>
+            </div>
+        </div>
+    </div>
 
-    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">edit</a>
 
-    {{ include('sortie/_delete_form.html.twig') }}
+
 {% endblock %}
