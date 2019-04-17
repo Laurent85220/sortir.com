@@ -3,12 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Utilisateur;
+use App\Form\RegistrationFormType;
 use App\Form\UtilisateurType;
 use App\Repository\UtilisateurRepository;
+use App\Security\Authenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
  * @Route("/utilisateur")
@@ -48,13 +53,32 @@ class UtilisateurController extends Controller
         ]);
     }
 
+
     /**
-     * @Route("/{id}", name="utilisateur_show", methods={"GET"})
+     * @Route("/edition", name="utilisateur_edition", methods={"GET","POST"})
      */
-    public function show(Utilisateur $utilisateur): Response
+    public function edition(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
-        return $this->render('utilisateur/show.html.twig', [
-            'utilisateur' => $utilisateur,
+        $user = $this->getUser();
+        $form = $this->createForm(RegistrationFormType::class, $user);
+
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('utilisateur_edition', [
+                'id' => $user->getId(),
+            ]);
+        }
+
+        return $this->render('utilisateur/edition.html.twig', [
+            'registrationForm' => $form->createView(),'error' => $error,'last_username' => $lastUsername,
+            'user' => $user,
+            'form' => $form->createView(),
         ]);
     }
 
