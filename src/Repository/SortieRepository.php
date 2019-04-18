@@ -29,6 +29,29 @@ class SortieRepository extends ServiceEntityRepository
         return $req->getQuery()->getResult();
 
     }
+
+    public function listeAccueilInvite($nbFirstResult, $nbMaxResult)
+    {
+        return $this->createQueryBuilder('ld')
+            ->addOrderBy('ld.dateHeureDebut', 'DESC')
+            ->getQuery()
+            ->setFirstResult($nbFirstResult)
+            ->setMaxResults($nbMaxResult)
+            ->getResult();
+    }
+
+    public function rechercheParFiltres($test)
+    {
+        return $this->createQueryBuilder('rpf')
+            ->andWhere('rpf.centreFormation = :val')
+            ->setParameter('val', $test)
+            ->orderBy('rpf.dateHeureDebut', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Sortie[] Returns an array of Sortie objects
     //  */

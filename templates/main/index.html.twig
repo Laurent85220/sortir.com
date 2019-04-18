@@ -26,9 +26,9 @@
 
         {% for sortie in sorties %}
             <div class="col-sm-3 mb-4">
-                <div class="card annonce">
+                <div class="card">
                     <div class="image-card d-flex justify-content-center">
-                        <img src="{{ asset('img/sortie.png') }}" class="card-img-top" alt="{{ sortie.nom }}" style="height: 200px;">
+                        <img src="{{ asset('img/sortie.png') }}" class="img-fluid card-img-top" alt="{{ sortie.nom }}">
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ sortie.nom }}</h5>
@@ -51,8 +51,9 @@
                         {% if is_granted ('ROLE_USER') %}
                             <a href="{{ path('sortie_show', {'id':sortie.id}) }}" class="btn btn-primary d-inline justify-content-center">En savoir +</a>
                             {#
-                            {%  if utilisateur is organisateur %}
-                                <a href="{{ path('sortie_edit', {'id':annonce.id}) }}" alt="ajouter favoris" class="btn btn-outline-warning d-inline justify-content-center {% if app.user.favoris.contains(annonce) %} btn-warning {% endif %}"><img class="pb-1" src="{{ asset('images/icons/etoile2.png') }}" style="width: 20px;"></a>
+                            // TODO: ajouter un bouton modifier sur la liste de sorties si l'utilisateur en session en est l'organisateur
+                            {%  if app.user à comparer à infos organisateurs %}
+                                <a href="{{ path('sortie_edit', {'id':sortie.id}) }}" alt="modifier ma sortie à {{ sortie.lieu.nom }}" class="btn btn-outline-warning d-inline justify-content-center {% if app.user.favoris.contains(annonce) %} btn-warning {% endif %}"><img class="pb-1" src="{{ asset('images/icons/etoile2.png') }}" style="width: 20px;"></a>
                             {%  endif %}
                             #}
                         {% endif %}
