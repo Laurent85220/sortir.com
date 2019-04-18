@@ -89,7 +89,16 @@ class UtilisateurController extends Controller
         return $this->render('utilisateur/edition.html.twig', [
             'registrationForm' => $form->createView(),'error' => $error,'last_username' => $lastUsername,
             'user' => $user,
-            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/profil", name="utilisateur_profil", methods={"GET","POST"})
+     */
+    public function profil(Request $request, Utilisateur $utilisateur): Response
+    {
+        return $this->render('utilisateur/profil.html.twig', [
+            'utilisateur' => $utilisateur,
         ]);
     }
 

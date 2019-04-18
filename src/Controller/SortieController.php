@@ -120,10 +120,18 @@ class SortieController extends Controller
         if (!$this->getUser()->getMesSorties()->contains($sortie)) {
             $utilisateur->addMesSorty($sortie);
             $sortie->addParticipant($utilisateur);
+            if($sortie->getParticipants()->count()=== $sortie->getNbInscriptionsMax()){
+                $etat = $entityManager -> getRepository(Etat::class)->find('3');
+                $sortie->setEtat($etat);
+            }
             $this->addFlash("success","Participant ajouté a la sortie ");
         }else{
             $utilisateur->removeMesSorty($sortie);
             $sortie->removeParticipant($utilisateur);
+            if($sortie->getParticipants()->count()<= $sortie->getNbInscriptionsMax()){
+                $etat = $entityManager -> getRepository(Etat::class)->find('2');
+                $sortie->setEtat($etat);
+            }
             $this->addFlash("danger","Participant retiré a la sortie ");
         }
         // Sauvegarde la relation
