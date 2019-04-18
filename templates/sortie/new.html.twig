@@ -3,9 +3,42 @@
 {% block title %}New Sortie{% endblock %}
 
 {% block body %}
-    <h1>Create new Sortie</h1>
+    <!--<h1>Create new Sortie</h1>
 
-    {{ include('sortie/_form.html.twig') }}
 
-    <a href="{{ path('sortie_index') }}">back to list</a>
+
+    <a href="{{ path('sortie_index') }}">back to list</a>-->
+
+    <div class="Container-fluid mt-5">
+        <div class="row">
+            <div class="card col-md-8 offset-2 p-0">
+                <div  class="card-header">
+                <h1>Créer une sortie</h1>
+                </div>
+                <div class="card-text mt-3 p-3">
+                    {{form_start(form) }}
+                    {{form_row(form.nom) }}
+                    {{form_row(form.dateHeureDebut) }}
+                    {{form_row(form.dateLimiteInscription) }}
+                    {{form_row(form.nbInscriptionsMax) }}
+                    {{form_row(form.duree) }}
+                    {{form_row(form.infosSortie) }}
+
+                    <p>Ville organisatrice : {{ organisateur.centreFormation.nom}}</p>
+                    {{form_row(form.lieu) }}
+                   {# {{form_row(lieu.rue) }}
+                   {{form_row(form.lieu.ville) }}
+                    {{form_row(form.lieu.latitude) }}
+                    {{form_row(form.lieu.longitude) }}#}
+
+
+
+
+
+                    <button class="btn btn-success">Valider</button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

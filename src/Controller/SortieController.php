@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
@@ -33,6 +34,7 @@ class SortieController extends Controller
     public function new(EntityManagerInterface $em, Request $request): Response
     {
         $sortie = new Sortie();
+        $organisateur = $this ->getUser();
         $etat = $em -> getRepository(Etat::class)->find('1');
         $sortie->setEtat($etat);
         $sortie->setOrganisateur($this->getUser());
@@ -50,6 +52,7 @@ class SortieController extends Controller
         return $this->render('sortie/new.html.twig', [
             'sortie' => $sortie,
             'form' => $form->createView(),
+            'organisateur' => $organisateur,
         ]);
     }
 
