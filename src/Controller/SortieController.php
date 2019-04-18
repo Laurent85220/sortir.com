@@ -59,11 +59,14 @@ class SortieController extends Controller
     /**
      * @Route("/afficher{id}", name="sortie_show", methods={"GET"})
      */
-    public function show(Sortie $sortie): Response
+    public function show(EntityManagerInterface $em,Sortie $sortie): Response
+
     {
-        return $this->render('sortie/show.html.twig', [
-            'sortie' => $sortie,
-        ]);
+
+        $participants=$em->getRepository(Utilisateur::class)
+            -> findSortie($sortie);
+        return $this->render('sortie/show.html.twig', compact('sortie','participants'))
+        ;
     }
 
     /**
