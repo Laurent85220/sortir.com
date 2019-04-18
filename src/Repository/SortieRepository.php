@@ -19,6 +19,16 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
+
+    public function findSortie(Sortie $sortie) {
+
+        $req = $this->createQueryBuilder('ut');
+        $req->innerJoin('ut.mesSorties', 's');
+        $req->andWhere('s.id = :sortie')->setParameter('sortie', $sortie);
+
+        return $req->getQuery()->getResult();
+
+    }
     // /**
     //  * @return Sortie[] Returns an array of Sortie objects
     //  */
