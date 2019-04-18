@@ -16,12 +16,12 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <form class="form-inline my-2 my-lg-0" action="{{ path('recherche_sorties') }}" method="get">
                 <input class="form-control mr-sm-2" type="search" placeholder="Recherche..." name="search" aria-label="Search">
-                <button class="btn btn-success my-2 my-sm-0" type="submit">Rechercher</button>
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Rechercher</button>
             </form>
         </div>
     </nav>
     {%  endif %}
-    <!-- Debut affichage de l'article -->
+    <!-- Debut affichage des sorties -->
     <div class="row">
 
         {% for sortie in sorties %}
@@ -35,13 +35,21 @@
                         <p class="card-text">
                             <b>Lieu:</b> {{ sortie.lieu.nom }}<br>
                             <b>Date:</b> {{ sortie.dateHeureDebut|date('d/m/Y à h:m') }}<br>
-                            <b>Organisateur:</b> {{ sortie.organisateur.nom }}<br>
+                            <b>Organisateur:</b>
+                            {% if is_granted ('ROLE_USER') %}
+                                <a href="{{ path('utilisateur_profil', {'id':sortie.organisateur.id}) }}">
+                                {{ sortie.organisateur.nom }}
+                                </a>
+                            {% else %}
+                                {{ sortie.organisateur.nom }}
+                            {%  endif %}
+                            <br>
                             <b>Inscrits:</b> {{ sortie.participants ? sortie.participants.count() : '' }} / {{ sortie.nbInscriptionsMax }}<br>
                     </div>
 
                     <div class="card-body">
                         {% if is_granted ('ROLE_USER') %}
-                            <a href="{{ path('sortie_show', {'id':sortie.id}) }}" class="btn btn-success d-inline justify-content-center">En savoir +</a>
+                            <a href="{{ path('sortie_show', {'id':sortie.id}) }}" class="btn btn-primary d-inline justify-content-center">En savoir +</a>
                             {#
                             {%  if utilisateur is organisateur %}
                                 <a href="{{ path('sortie_edit', {'id':annonce.id}) }}" alt="ajouter favoris" class="btn btn-outline-warning d-inline justify-content-center {% if app.user.favoris.contains(annonce) %} btn-warning {% endif %}"><img class="pb-1" src="{{ asset('images/icons/etoile2.png') }}" style="width: 20px;"></a>

@@ -3,13 +3,13 @@
 namespace App\Form;
 
 use App\Entity\Lieu;
-use App\Entity\Site;
 use App\Entity\Sortie;
-use App\Entity\Utilisateur;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,27 +18,32 @@ class SortieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom')
-            ->add('organisateur', EntityType::class, [
-                'choice_label'=>'nom',
-                'label' =>'Organisateur: ',
-                'class' =>Utilisateur::class
-            ])
+            ->add('nom', TextType::class)
+
             ->add('dateHeureDebut', DateTimeType::class)
-            ->add('duree')
+            ->add('duree', IntegerType::class)
             ->add('dateLimiteInscription', DateTimeType::class)
-            ->add('nbInscriptionsMax')
-            ->add('infosSortie')
-            ->add('centreFormation', EntityType::class, [
-                'choice_label'=>'nom',
-                'label' =>'Ville organisatrice: ',
-                'class' =>Site::class
-            ])
+            ->add('nbInscriptionsMax', IntegerType::class)
+            ->add('infosSortie', TextareaType::class)
+
             ->add('lieu', EntityType::class, [
                 'choice_label'=>'nom',
                 'label' =>'Lieu: ',
+
+
                 'class' =>Lieu::class
+
             ])
+            ->add('lieu', EntityType::class, [
+                'choice_label'=>'rue',
+                'label' =>'Rue: ',
+
+
+                'class' =>Lieu::class
+
+            ])
+
+
 
         ;
     }

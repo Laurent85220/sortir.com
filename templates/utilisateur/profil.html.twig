@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil Utilisateur{% endblock %}
+
+{% block body %}
+    <div class="Container-fluid mt-5">
+        <div class="row">
+            <div class="card col-md-6 offset-3 p-0">
+                <div  class="card-header text-center">
+                    <h1>{{ utilisateur.pseudo }} </h1>
+                </div>
+                    <div class="card-text mt-3 p-3">
+                        <div class="row">
+                            <div class="card-img col-md-4 ml-3 border d-flex align-items-center">
+                                <img class="w-100 h-auto" src="{{ asset('img/default.jpg') }}" alt="{{ utilisateur.pseudo }}">
+                            </div>
+                            <div class="col-md-6">
+                                <p><b>Prénom :</b> {{ utilisateur.prenom }}</p>
+                                <p><b>Nom :</b> {{ utilisateur.nom }}</p>
+                                <p><b>Téléphone :</b> {{ utilisateur.telephone }}</p>
+                                <p><b>Email :</b> {{ utilisateur.email }}</p>
+                                <p><b>Ville de rattachement :</b> {{ utilisateur.centreFormation.nom }}</p>
+                            </div>
+                            <div class="col-12 text-center mt-2">
+                                <a href="{{ path('home') }}" class="btn btn-info d-inline-flex">Retour</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
