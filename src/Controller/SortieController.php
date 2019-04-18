@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Etat;
 use App\Entity\Sortie;
+use App\Entity\Utilisateur;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -99,5 +100,28 @@ class SortieController extends Controller
         }
 
         return $this->redirectToRoute('sortie_index');
+    }
+    /**
+     * @Route("/ajout{id}", name="ajout_sortie", methods={"GET"})
+     */
+    public function ajoutMesSorties(EntityManagerInterface $entityManager, Request $request,Sortie $sortie):Response
+    {
+        /** @var Utilisateur $utilisateur */
+        $utilisateur = $this->getUser();
+        if (!$this->getUser()->getMesSorties()->contains($sortie)) {
+            $utilisateur->addMesSorty($sortie);
+            $sortie->addParticipant($utilisateur);
+            $this->addFlash("success","Participant ajouté a la sortie ");
+        }else{
+            $utilisateur->removeMesSorty($sortie);
+            $sortie->removeParticipant($utilisateur);
+            $this->addFlash("danger","Participant retiré a la sortie ");
+        }
+        // Sauvegarde la relation
+        $entityManager->flush();
+
+        // Redirige l'utilisateur sur les annonces
+        return $this->redirectToRoute('home');
+
     }
 }
