@@ -1,42 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}accueil{% endblock %}
+{% block title %}accueil v2{% endblock %}
 
 {% block body %}
-    <div class="Container-fluid mt-5">
-        <div class="row">
-            <div class="card col-md-8 offset-2 p-0">
-                <div  class="card-header">
-        <h1>Nos sorties</h1>
-    </div>
-    <div class="card-text mt-3 p-3">
 
-    <table class="table table-borderless table-hover">
-        <thead class=".thead-light">
-        <tr>
-            <th>Nom</th>
-            <th>Lieu</th>
-            <th>Rendez-vous</th>
-            <th>Infos</th>
-        </tr>
-        </thead>
-        <tbody>
+<div class="container-fluid body">
+    <!-- Debut barre de recherche -->
+    {% if is_granted ('ROLE_USER') %}
+    <nav class="navbar navbar-expand-lg navbar-white bg-light mb-4">
+        <h5 class="navbar-brand">Filtrer les sorties</h5>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="form-inline my-2 my-lg-0" action="{{ path('recherche_sorties') }}" method="get">
+                <input class="form-control mr-sm-2" type="search" placeholder="Recherche..." name="search" aria-label="Search">
+                <button class="btn btn-success my-2 my-sm-0" type="submit">Rechercher</button>
+            </form>
+        </div>
+    </nav>
+    {%  endif %}
+    <!-- Debut affichage de l'article -->
+    <div class="row">
+
         {% for sortie in sorties %}
-            <tr>
-                <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.lieu.nom }}</td>
-                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sortie.infosSortie }}</td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">Il n'y a pas de sorties prévues pour le moment.</td>
-            </tr>
+            <div class="col-sm-3 mb-4">
+                <div class="card annonce">
+                    <div class="image-card d-flex justify-content-center">
+                        <img src="{{ asset('img/sortie.png') }}" class="card-img-top" alt="{{ sortie.nom }}" style="height: 200px;">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ sortie.nom }}</h5>
+                        <p class="card-text">
+                            <b>Lieu:</b> {{ sortie.lieu.nom }}<br>
+                            <b>Date:</b> {{ sortie.dateHeureDebut|date('d/m/Y à h:m') }}<br>
+                            <b>Organisateur:</b> {{ sortie.organisateur.nom }}<br>
+                            <b>Inscrits:</b> {{ sortie.participants ? sortie.participants.count() : '' }} / {{ sortie.nbInscriptionsMax }}<br>
+                    </div>
+                    {#
+                    <div class="card-body">
+                        {% if is_granted ('ROLE_USER') %}
+                            <a href="{{ path('detail', {'id':sortie.id}) }}" class="btn btn-success d-inline justify-content-center">En savoir +</a>
+                            <a href="{{ path('ajouter_favoris', {'id':annonce.id}) }}" alt="ajouter favoris" class="btn btn-outline-warning d-inline justify-content-center {% if app.user.favoris.contains(annonce) %} btn-warning {% endif %}"><img class="pb-1" src="{{ asset('images/icons/etoile2.png') }}" style="width: 20px;"></a>
+                        {% endif %}
+                    </div>
+                    #}
+                </div>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
     </div>
-    </div>
-    </div>
-    </div>
+
 {% endblock %}
