@@ -38,14 +38,20 @@
                             <b>Organisateur:</b> {{ sortie.organisateur.nom }}<br>
                             <b>Inscrits:</b> {{ sortie.participants ? sortie.participants.count() : '' }} / {{ sortie.nbInscriptionsMax }}<br>
                     </div>
-                    {#
+
                     <div class="card-body">
                         {% if is_granted ('ROLE_USER') %}
-                            <a href="{{ path('detail', {'id':sortie.id}) }}" class="btn btn-success d-inline justify-content-center">En savoir +</a>
-                            <a href="{{ path('ajouter_favoris', {'id':annonce.id}) }}" alt="ajouter favoris" class="btn btn-outline-warning d-inline justify-content-center {% if app.user.favoris.contains(annonce) %} btn-warning {% endif %}"><img class="pb-1" src="{{ asset('images/icons/etoile2.png') }}" style="width: 20px;"></a>
+                            <a href="{{ path('sortie_show', {'id':sortie.id}) }}" class="btn btn-success d-inline justify-content-center">En savoir +</a>
+                            {#
+                            {%  if utilisateur is organisateur %}
+                                <a href="{{ path('sortie_edit', {'id':annonce.id}) }}" alt="ajouter favoris" class="btn btn-outline-warning d-inline justify-content-center {% if app.user.favoris.contains(annonce) %} btn-warning {% endif %}"><img class="pb-1" src="{{ asset('images/icons/etoile2.png') }}" style="width: 20px;"></a>
+                            {%  endif %}
+                            #}
                         {% endif %}
+
                     </div>
-                    #}
+
+
                 </div>
             </div>
         {% endfor %}

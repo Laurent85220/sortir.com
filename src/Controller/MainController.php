@@ -17,7 +17,7 @@ class MainController extends Controller
      */
     public function index(SortieRepository $sortieRepository, SiteRepository $siteRepository): Response
     {
-        return $this->render('index.html.twig', [
+        return $this->render('main/index.html.twig', [
             'sorties' => $sortieRepository->findAll(),
             'sites' => $siteRepository->findAll(),
         ]);
@@ -28,7 +28,7 @@ class MainController extends Controller
      */
     public function rechercheSorties(SortieRepository $sortieRepository, SiteRepository $siteRepository): Response
     {
-        return $this->render('index.html.twig', [
+        return $this->render('main/index.html.twig', [
             'sorties' => $sortieRepository->findAll(),
             'sites' => $siteRepository->findAll(),
         ]);
