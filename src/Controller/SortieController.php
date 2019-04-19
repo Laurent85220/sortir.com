@@ -143,4 +143,12 @@ class SortieController extends Controller
         return $this->redirectToRoute('home');
 
     }
+    /**
+     * @Route("/archive", name="archive")
+     */
+    public function archive(){
+
+        return $this->render('sortie/archive.html.twig');
+    }
+
 }
