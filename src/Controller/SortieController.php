@@ -7,6 +7,7 @@ use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Utilisateur;
 use App\Entity\Ville;
+use App\Form\LieuType;
 use App\Form\SortieType;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
@@ -43,9 +44,10 @@ class SortieController extends Controller
         $sortie->setEtat($etat);
         $sortie->setOrganisateur($organisateur);
         $sortie->setCentreFormation($organisateur->getCentreFormation());
-        $form = $this->createForm(SortieType::class, $sortie);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        $formSortie = $this->createForm(SortieType::class, $sortie);
+        $formSortie->handleRequest($request);
+
+        if ($formSortie->isSubmitted() && $formSortie->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -57,8 +59,9 @@ class SortieController extends Controller
             'lieux' => $lieux->findAll(),
             'villes' => $villes->findAll(),
             'sortie' => $sortie,
-            'form' => $form->createView(),
+            'formSortie' => $formSortie->createView(),
             'organisateur' => $organisateur,
+
         ]);
     }
 
