@@ -156,10 +156,11 @@ class SortieController extends Controller
      */
     public function annulerSortie(EntityManagerInterface $entityManager, Request $request, Sortie $sortie): Response
     {
-        $form = $this->createForm(AnnulerSortieType::class, $sortie);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
 
+        $formannul = $this->createForm(AnnulerSortieType::class, $sortie);
+        $formannul->handleRequest($request);
+
+        if ($formannul->isSubmitted() && $formannul->isValid()) {
             if ($sortie->getOrganisateur() === $this->getUser()) {
                 //changement de l'état de la sortie à 'annulée'
                 $etat = $entityManager->getRepository(Etat::class)->find('6');
@@ -168,13 +169,17 @@ class SortieController extends Controller
                 $this->get('event_dispatcher')->dispatch('annulation_sortie', new GenericEvent($sortie));
                 //ajout du message flash informant de l'annulation de la sortie
                 $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($sortie);
                 $entityManager->flush();
+
                 $this->addFlash("danger", "La sortie à étée annulée et un mail a été envoyé aux participants pour les en informés");
+
+                return $this->redirectToRoute('home');
             }
         }
-        return $this->redirectToRoute('home', [
-            'sortie' => $sortie,
-            'form' => $form->createView(),]);
+        return $this->render('sortie/annuler.html.twig',
+            [
+                'sortie' => $sortie,
+                'form' => $formannul->createView(),]);
+
     }
 }
