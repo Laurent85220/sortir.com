@@ -55,7 +55,7 @@ class Sortie
     private $centreFormation;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Lieu", inversedBy="sorties")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Lieu", inversedBy="sorties",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $lieu;
