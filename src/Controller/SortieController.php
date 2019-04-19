@@ -6,7 +6,9 @@ use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Utilisateur;
+use App\Entity\Ville;
 use App\Form\SortieType;
+use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -32,7 +34,7 @@ class SortieController extends Controller
     /**
      * @Route("/new", name="sortie_new", methods={"GET","POST"})
      */
-    public function new(EntityManagerInterface $em, Request $request): Response
+    public function new(EntityManagerInterface $em, LieuRepository $lieux, Request $request): Response
     {
         $sortie = new Sortie();
         $organisateur = $this ->getUser();
@@ -50,6 +52,7 @@ class SortieController extends Controller
         }
 
         return $this->render('sortie/new.html.twig', [
+            'lieux' => $lieux->findAll(),
             'sortie' => $sortie,
             'form' => $form->createView(),
             'organisateur' => $organisateur,
@@ -114,13 +117,20 @@ class SortieController extends Controller
         /** @var Utilisateur $utilisateur */
         $utilisateur = $this->getUser();
         if (!$this->getUser()->getMesSorties()->contains($sortie)) {
-                $utilisateur->addMesSorty($sortie);
-                $sortie->addParticipant($utilisateur);
-                $this->addFlash("success", "Participant ajouté a la sortie ");
-
+            $utilisateur->addMesSorty($sortie);
+            $sortie->addParticipant($utilisateur);
+            if($sortie->getParticipants()->count()=== $sortie->getNbInscriptionsMax()){
+                $etat = $entityManager -> getRepository(Etat::class)->find('3');
+                $sortie->setEtat($etat);
+            }
+            $this->addFlash("success","Participant ajouté a la sortie ");
         }else{
             $utilisateur->removeMesSorty($sortie);
             $sortie->removeParticipant($utilisateur);
+            if($sortie->getParticipants()->count()<= $sortie->getNbInscriptionsMax()){
+                $etat = $entityManager -> getRepository(Etat::class)->find('2');
+                $sortie->setEtat($etat);
+            }
             $this->addFlash("danger","Participant retiré a la sortie ");
         }
         // Sauvegarde la relation

@@ -1,13 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}New Sortie{% endblock %}
+{% block javascripts %}{% endblock %}
 
 {% block body %}
     <!--<h1>Create new Sortie</h1>
-
-
-
     <a href="{{ path('sortie_index') }}">back to list</a>-->
+
 
     <div class="Container-fluid mt-5">
         <div class="row">
@@ -25,18 +24,53 @@
                     {{form_row(form.infosSortie) }}
 
                     <p>Ville organisatrice : {{ organisateur.centreFormation.nom}}</p>
-                    {{form_row(form.lieu) }}
-                   {# {{form_row(lieu.rue) }}
-                   {{form_row(form.lieu.ville) }}
-                    {{form_row(form.lieu.latitude) }}
-                    {{form_row(form.lieu.longitude) }}#}
+
+                    <form id="form">
+                        <select id="ville">
+
+                            {% for lieu in lieux %}
+                                <option value="{{ lieu.ville.id }}">{{ lieu.ville.nom }}</option>
+                            {% endfor %}
+                            <!--
+                            <option>Poitiers</option>
+                            <option>La Roche Sur Yon</option>
+                            -->
+                        </select>
+                    </form>
 
 
 
+                    <br>
+                    <form id="form">
+                        <select id="lieu" d>
+                            <option value="0">Lieu</option>
+                            {% for lieu in lieux %}
+                                <option value="{{ lieu.id }}">{{ lieu.nom }}</option>
+                            {% endfor %}
+                            <!--
+                            <option>Le top bar</option>
+                            <option>Le pire bar</option>
+                            -->
+                        </select>
+                    </form>
+                    <div id="resultat"></div>
+                    <script>
+                        var ville = document.getElementById("ville");
+                        ville.addEventListener("change",function(){
+                            document.getElementById("resultat").innerHTML=ville.options[ville.selectedIndex].value;
 
+                        });
 
+                    </script>
+                    <script>
+                        var lieu = document.getElementById("lieu");
+                        ville.addEventListener("change",function(){
+                            document.getElementById("resultat").innerHTML=lieu.options[lieu.selectedIndex].value;
+                        });
+                    </script>
+                    <br>
                     <button class="btn btn-success">Valider</button>
-                    {{ form_end(form) }}
+
                 </div>
             </div>
         </div>
