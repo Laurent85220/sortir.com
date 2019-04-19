@@ -41,7 +41,6 @@ class SortieController extends Controller
         $sortie->setOrganisateur($this->getUser());
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
@@ -115,9 +114,10 @@ class SortieController extends Controller
         /** @var Utilisateur $utilisateur */
         $utilisateur = $this->getUser();
         if (!$this->getUser()->getMesSorties()->contains($sortie)) {
-            $utilisateur->addMesSorty($sortie);
-            $sortie->addParticipant($utilisateur);
-            $this->addFlash("success","Participant ajouté a la sortie ");
+                $utilisateur->addMesSorty($sortie);
+                $sortie->addParticipant($utilisateur);
+                $this->addFlash("success", "Participant ajouté a la sortie ");
+
         }else{
             $utilisateur->removeMesSorty($sortie);
             $sortie->removeParticipant($utilisateur);

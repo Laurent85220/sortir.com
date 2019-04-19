@@ -43,6 +43,7 @@ class UtilisateurController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($utilisateur);
             $entityManager->flush();
@@ -63,6 +64,11 @@ class UtilisateurController extends Controller
     public function edition(Request $request, UserPasswordEncoderInterface $passwordEncoder,GuardAuthenticatorHandler $guardHandler, AuthenticationUtils $authenticationUtils): Response
     {
         $user = $this->getUser();
+        // Save old path
+        $oldPath = $user->getFile();
+
+        // Remove Path
+        $user->setFile(null);
         $form = $this->createForm(RegistrationFormType::class, $user);
 
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -71,20 +77,31 @@ class UtilisateurController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $passwordEncoder = $this->get('security.password_encoder');
+            /** @var UploadedFile $file */
+            $file = $user->getFile();
 
-            if ($passwordEncoder->isPasswordValid($user, $user->getOldPassword())) {
-                $newEncodedPassword = $passwordEncoder->encodePassword($user, $form->get('plainPassword')->getData());
-                $user->setPassword($newEncodedPassword);
+            if (!\is_null($file)) {
+
+                // Génération d'un nom unique
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+
+                // Déplacement du fichier dans le répertoire demandé
+                $file->move($this->getParameter('upload_directory'), $fileName);
+
+                // Modification du champs "File"
+                $user->setFile($fileName);
+            } else {
+                $user->setFile($oldPath);
+            }
+
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash("success","Votre compte a bien été modifié ");
             return $this->redirectToRoute('utilisateur_edition', [
                 'id' => $user->getId(),
             ]);
         }
-        } else {
-            $form->addError(new FormError('Ancien mot de passe incorrect'));
-        }
+
+
 
         return $this->render('utilisateur/edition.html.twig', [
             'registrationForm' => $form->createView(),'error' => $error,'last_username' => $lastUsername,

@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
 
-class RegistrationFormType extends AbstractType
+class InscriptionFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -24,6 +24,7 @@ class RegistrationFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'label'=>'Email :'
             ])
+
 
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
@@ -65,8 +66,7 @@ class RegistrationFormType extends AbstractType
                 'label' =>'Centre de formation : ',
                 'class' =>Site::class
             ])
-            ->add('file', FileType::class,array(
-                'data_class'   =>null,))
+            ->add('file', FileType::class,)
         ;
     }
 

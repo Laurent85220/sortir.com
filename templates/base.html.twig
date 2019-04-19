@@ -51,7 +51,17 @@
 
             </div>
         </nav>
-        {% block body %}{% endblock %}
+        <div class="container-fluid mb-4">
+            {% for label, messages in app.flashes %}
+                {%  for message in messages %}
+                    <div class="alert-{{ label }} col-sm-4 offset-sm-4 text-center p-3">
+                        {{ message  }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        {% block body %}
+            {% endblock %}
         {% block javascripts %}{% endblock %}
 
     <footer class="row fixed-bottom justify-content-center">

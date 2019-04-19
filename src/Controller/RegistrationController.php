@@ -6,11 +6,13 @@ use App\Entity\Utilisateur;
 use App\Form\RegistrationFormType;
 use App\Security\Authenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+
 
 class RegistrationController extends Controller
 {
@@ -23,7 +25,19 @@ class RegistrationController extends Controller
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $file */
+            $file = $user->getFile();
+
+            // Génération d'un nom unique
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+
+            // Déplacement du fichier dans le répertoire demandé
+            $file->move($this->getParameter('upload_directory'), $fileName);
+
+            // Modification du champs "File"
+            $user->setFile($fileName);
             // encode the plain password
             $user->setPassword(
                 $passwordEncoder->encodePassword(

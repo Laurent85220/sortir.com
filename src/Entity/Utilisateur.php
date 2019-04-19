@@ -128,17 +128,17 @@ class Utilisateur implements UserInterface
      */
     private $sortiesOrganisees;
 
-    /**
-     * @SecurityAssert\UserPassword(
-     *     message = "Wrong value for your current password"
-     * )
-     */
-    protected $oldPassword;
+
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Sortie", mappedBy="participants")
      */
     private $mesSorties;
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\File(mimeTypes={ "image/*" })
+     */
+    private $file;
 
     public function __construct()
     {
@@ -392,19 +392,23 @@ class Utilisateur implements UserInterface
 
         return $this;
     }
+
+
     /**
      * @return mixed
      */
-    public function getOldPassword()
+    public function getFile()
     {
-        return $this->oldPassword;
+        return $this->file;
     }
 
     /**
-     * @param mixed $oldPassword
+     * @param mixed $file
      */
-    public function setOldPassword($oldPassword): void
+    public function setFile($file): void
     {
-        $this->oldPassword = $oldPassword;
+        $this->file = $file;
     }
+
+
 }

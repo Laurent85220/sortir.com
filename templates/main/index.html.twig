@@ -45,6 +45,7 @@
                             {%  endif %}
                             <br>
                             <b>Inscrits:</b> {{ sortie.participants ? sortie.participants.count() : '' }} / {{ sortie.nbInscriptionsMax }}<br>
+                            <b>Etat:</b> {{ sortie.etat.libelle }}
                     </div>
 
                     <div class="card-body">
@@ -55,6 +56,7 @@
                                 <a href="{{ path('sortie_edit', {'id':annonce.id}) }}" alt="ajouter favoris" class="btn btn-outline-warning d-inline justify-content-center {% if app.user.favoris.contains(annonce) %} btn-warning {% endif %}"><img class="pb-1" src="{{ asset('images/icons/etoile2.png') }}" style="width: 20px;"></a>
                             {%  endif %}
                             #}
+                            <a href="{{ path('ajout_sortie', {'id': sortie.id}) }}"class="d-inline justify-content-center {% if app.user.mesSorties.contains(sortie) %} btn btn-danger "> Se desinscrire{% else %} btn btn-success"> S'inscrire à la sortie{% endif %}</a>
                         {% endif %}
 
                     </div>
