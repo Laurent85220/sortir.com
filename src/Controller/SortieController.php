@@ -8,9 +8,12 @@ use App\Entity\Sortie;
 use App\Entity\Utilisateur;
 use App\Entity\Ville;
 use App\Form\AnnulerSortieType;
+use App\Form\LieuType;
+
 use App\Form\SortieType;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
+use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -37,28 +40,32 @@ class SortieController extends Controller
     /**
      * @Route("/new", name="sortie_new", methods={"GET","POST"})
      */
-    public function new(EntityManagerInterface $em, LieuRepository $lieux, Request $request): Response
+    public function new(EntityManagerInterface $em, LieuRepository $lieux, VilleRepository $villes, Request $request): Response
     {
         $sortie = new Sortie();
         $organisateur = $this->getUser();
         $etat = $em->getRepository(Etat::class)->find('1');
         $sortie->setEtat($etat);
-        $sortie->setOrganisateur($this->getUser());
-        $form = $this->createForm(SortieType::class, $sortie);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        $sortie->setOrganisateur($organisateur);
+        $sortie->setCentreFormation($organisateur->getCentreFormation());
+        $formSortie = $this->createForm(SortieType::class, $sortie);
+        $formSortie->handleRequest($request);
+
+        if ($formSortie->isSubmitted() && $formSortie->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
             $entityManager->flush();
 
-            return $this->redirectToRoute('sortie_index');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('sortie/new.html.twig', [
             'lieux' => $lieux->findAll(),
+            'villes' => $villes->findAll(),
             'sortie' => $sortie,
-            'form' => $form->createView(),
+            'formSortie' => $formSortie->createView(),
             'organisateur' => $organisateur,
+
         ]);
     }
 

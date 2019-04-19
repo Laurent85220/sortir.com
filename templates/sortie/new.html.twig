@@ -4,8 +4,7 @@
 {% block javascripts %}{% endblock %}
 
 {% block body %}
-    <!--<h1>Create new Sortie</h1>
-    <a href="{{ path('sortie_index') }}">back to list</a>-->
+
 
 
     <div class="Container-fluid mt-5">
@@ -15,33 +14,35 @@
                 <h1>Créer une sortie</h1>
                 </div>
                 <div class="card-text mt-3 p-3">
-                    {{form_start(form) }}
-                    {{form_row(form.nom) }}
-                    {{form_row(form.dateHeureDebut) }}
-                    {{form_row(form.dateLimiteInscription) }}
-                    {{form_row(form.nbInscriptionsMax) }}
-                    {{form_row(form.duree) }}
-                    {{form_row(form.infosSortie) }}
-
+                    {{form_start(formSortie) }}
+                    {{form_row(formSortie.nom) }}
+                    {{form_row(formSortie.dateHeureDebut) }}
+                    {{form_row(formSortie.dateLimiteInscription) }}
+                    {{form_row(formSortie.nbInscriptionsMax) }}
+                    {{form_row(formSortie.duree) }}
+                    {{form_row(formSortie.infosSortie) }}
                     <p>Ville organisatrice : {{ organisateur.centreFormation.nom}}</p>
+                    {{form_row(formSortie.lieu) }}
+                    <button class="btn btn-success">Valider</button>
+                    {{ form_end(formSortie) }}
 
-                    <form id="form">
-                        <select id="ville">
+                   <!-- <p>Organisateur : {{ organisateur.nom }}</p> -->
 
-                            {% for lieu in lieux %}
-                                <option value="{{ lieu.ville.id }}">{{ lieu.ville.nom }}</option>
+
+
+                      {#   <select id="ville">
+
+                            {% for ville in villes %}
+                                <option value="{{ ville.id }}">{{ ville.nom }}</option>
                             {% endfor %}
                             <!--
                             <option>Poitiers</option>
                             <option>La Roche Sur Yon</option>
                             -->
                         </select>
-                    </form>
-
-
 
                     <br>
-                    <form id="form">
+
                         <select id="lieu" d>
                             <option value="0">Lieu</option>
                             {% for lieu in lieux %}
@@ -52,7 +53,7 @@
                             <option>Le pire bar</option>
                             -->
                         </select>
-                    </form>
+
                     <div id="resultat"></div>
                     <script>
                         var ville = document.getElementById("ville");
@@ -60,7 +61,6 @@
                             document.getElementById("resultat").innerHTML=ville.options[ville.selectedIndex].value;
 
                         });
-
                     </script>
                     <script>
                         var lieu = document.getElementById("lieu");
@@ -68,8 +68,7 @@
                             document.getElementById("resultat").innerHTML=lieu.options[lieu.selectedIndex].value;
                         });
                     </script>
-                    <br>
-                    <button class="btn btn-success">Valider</button>
+                    <br>#}
 
                 </div>
             </div>
