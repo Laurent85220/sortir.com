@@ -50,9 +50,24 @@ class SortieController extends Controller
         $sortie->setCentreFormation($organisateur->getCentreFormation());
         $formSortie = $this->createForm(SortieType::class, $sortie);
         $formSortie->handleRequest($request);
+        $lieu = new Lieu();
+        $formLieu= $this->createForm(LieuType::class, $lieu);
+        $formLieu->handleRequest($request);
+
+        if ($formLieu->isSubmitted() && $formLieu->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($lieu);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('sortie_new');
+        }
 
         if ($formSortie->isSubmitted() && $formSortie->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+          if ($formSortie ->get('publier')->isClicked()) {
+              $etat2 = $em -> getRepository(Etat::class)->find('2');
+              $sortie->setEtat($etat2);
+            }
             $entityManager->persist($sortie);
             $entityManager->flush();
 
@@ -65,6 +80,8 @@ class SortieController extends Controller
             'sortie' => $sortie,
             'formSortie' => $formSortie->createView(),
             'organisateur' => $organisateur,
+            'lieu' => $lieu,
+            'formLieu' => $formLieu->createView(),
 
         ]);
     }

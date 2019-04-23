@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -26,8 +27,13 @@ class SortieType extends AbstractType
             ->add('dateLimiteInscription', DateTimeType::class)
             ->add('nbInscriptionsMax', IntegerType::class)
             ->add('infosSortie', TextareaType::class)
-            ->add('lieu', LieuType::class,)
-
+            ->add('lieu', EntityType::class,[
+                'choice_label'=>'nom',
+                'label' =>'Lieu : ',
+                'class' => Lieu::class
+            ])
+            ->add('enregistrer', SubmitType::class,['label'=>'Enregistrer'])
+            ->add('publier', SubmitType::class,['label'=>'Publier la sortie'])
 
         ;
     }
