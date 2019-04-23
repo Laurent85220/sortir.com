@@ -4,6 +4,8 @@ namespace App\Controller;
 
 
 use App\Entity\Sortie;
+use App\Form\SortieType;
+use App\Form\RechercherType;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,26 +17,48 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends Controller
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/", name="home", methods={"GET","POST"})
      */
-    public function index(SortieRepository $sortieRepository, SiteRepository $siteRepository): Response
+    public function index(SortieRepository $sortieRepository, SiteRepository $siteRepository, Request $request): Response
     {
+        // récupérer le centre de formation de l'utilisateur pour l'afficher par défaut dans les filtres de recherche
+//        $utilisateur = $this->getUser();
+//        $centreParDefaut = $utilisateur->getCentreFormation();
+        // la page d'accueil est différente si l'on est un utilisateur identifié ou non
+        if ($this->getUser()) {
+            $sorties = $sortieRepository->findAll();
+        } else {
+            // note: avec la fonction listeAccueilInvite, on peut limiter le nombre de résultats
+            $sorties = $sortieRepository ->listeAccueilInvite();
+        }
+
+        $formRechercher = $this->createForm(RechercherType::class);
+        $formRechercher->handleRequest($request);
+        if ($formRechercher->isSubmitted()) {
+            $filtres = $formRechercher->getData();
+            
+        }
+
         return $this->render('main/index.html.twig', [
-            'sites' => $siteRepository->findAll(),
-            'sorties'=> $sortieRepository->listeAccueilInvite(0, 8),
+//            'sites' => $siteRepository->findAll(),
+            'sorties'=> $sorties,
+            'formRechercher'=>$formRechercher->createView(),
         ]);
     }
 
-    /**
-     * @Route("/recherche", name="recherche_sorties")
-     */
-    public function rechercheSorties(SortieRepository $sortieRepository, SiteRepository $siteRepository): Response
-    {
-        return $this->render('main/index.html.twig', [
-            'sorties' => $sortieRepository->rechercheParFiltres(),
-            'sites' => $siteRepository->findAll(),
-        ]);
-    }
+//    /**
+//     * @Route("/recherche", name="recherche_sorties", methods={"GET","POST"})
+//     */
+//    public function rechercheSorties(SortieRepository $sortieRepository, SiteRepository $siteRepository, Request $request): Response
+//    {
+//        $form = $this->createForm(RechercheType::class, );
+//        $form->handleRequest($request);
+//        return $this->render('main/index.html.twig', [
+//            'sorties' => $sortieRepository->rechercheParFiltres(),
+//            'sites' => $siteRepository->findAll(),
+//            'formRecherche' => $form,
+//        ]);
+//    }
 
     /**
      * @Route("/fail")

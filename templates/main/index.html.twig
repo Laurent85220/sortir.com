@@ -1,27 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}accueil v2{% endblock %}
+{% block title %}accueil v3{% endblock %}
 
 {% block body %}
 
 <div class="container-fluid body">
-    <!-- Debut barre de recherche -->
     {% if is_granted ('ROLE_USER') %}
-    <nav class="navbar navbar-expand-lg navbar-white bg-light mb-4">
-        <h5 class="navbar-brand">Filtrer les sorties</h5>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <form class="form-inline my-2 my-lg-0" action="{{ path('recherche_sorties') }}" method="get">
-                <input class="form-control mr-sm-2" type="search" placeholder="Recherche..." name="search" aria-label="Search">
-                <button class="btn btn-primary my-2 my-sm-0" type="submit">Rechercher</button>
-            </form>
-        </div>
-    </nav>
+        {# TODO: infos date du jour et nom utilisateur connecté, justifiées à droite #}
+        {{ include('main/_recherche.sortie.twig') }}
     {%  endif %}
-    <!-- Debut affichage des sorties -->
+
+    {# Liste des Sorties #}
     <div class="row">
 
         {% for sortie in sorties %}
@@ -66,8 +55,6 @@
                             {% endif %}
                         {% endif %}
                     </div>
-
-
                 </div>
             </div>
         {% endfor %}

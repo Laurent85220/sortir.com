@@ -34,6 +34,7 @@ class SortieRepository extends ServiceEntityRepository
     public function listeAccueilInvite($nbFirstResult, $nbMaxResult)
     {
         return $this->createQueryBuilder('ld')
+            ->andWhere('ld.etat = 2')
             ->addOrderBy('ld.dateHeureDebut', 'DESC')
             ->getQuery()
             ->setFirstResult($nbFirstResult)
@@ -41,11 +42,11 @@ class SortieRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function rechercheParFiltres($test)
+    public function rechercheParFiltres($filtres)
     {
         return $this->createQueryBuilder('rpf')
             ->andWhere('rpf.centreFormation = :val')
-            ->setParameter('val', $test)
+            ->setParameter('val', $filtres)
             ->orderBy('rpf.dateHeureDebut', 'DESC')
             ->setMaxResults(10)
             ->getQuery()
