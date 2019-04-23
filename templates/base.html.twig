@@ -24,8 +24,8 @@
         {% endblock %}
     </head>
 
-    <body class="container-fluid">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light dark-light mb-4">
             <a class="navbar-brand" href="{{ path('home') }}">Sortir.com</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +48,11 @@
                            <a class="nav-link" href="{{ path('logout') }}" tabindex="-1"
                                aria-disabled="true">Se déconnecter</a>
                         </li>
-
+                    {% if is_granted ("ROLE_ADMIN") %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('archiver') }}">Archives<span class="sr-only">(current)</span></a>
+                        </li>
+                        {% endif %}
                     {% else %}
 
 
@@ -75,7 +79,7 @@
         {% block body %}
             {% endblock %}
 
-    <footer class="row  justify-content-center">
+    <footer class="row dark-light justify-content-center fixed-bottom bg">
 
         <div>
             <p>

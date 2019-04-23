@@ -12,6 +12,7 @@ use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
@@ -223,6 +224,16 @@ class SortieController extends Controller
 
         return $this->redirectToRoute('home');
 
+    }
+    /**
+     *  @IsGranted("ROLE_ADMIN")
+     * @Route("/archiver", name="archiver", methods={"GET","POST"})
+     */
+    public function archiver(EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $sorties = $entityManager->getRepository(Sortie::class)
+            ->findSortiearchive();
+        return $this->render('sortie/archives.html.twig', compact('sorties', ));
     }
 
 }
