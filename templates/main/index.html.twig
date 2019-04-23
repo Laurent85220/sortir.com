@@ -49,19 +49,22 @@
                     </div>
 
                     <div class="card-body">
-                        {% if is_granted ('ROLE_USER') %}
-                            <a href="{{ path('sortie_show', {'id':sortie.id}) }}" class="btn btn-primary d-inline justify-content-center">En savoir +</a>
+                        {% if sortie.etat.libelle!='Annulée' %}
+                            {% if is_granted ('ROLE_USER') %}
+                                <a href="{{ path('sortie_show', {'id':sortie.id}) }}" class="btn btn-primary d-inline justify-content-center">En savoir +</a>
 
-                            {%  if app.user.id == sortie.organisateur.id %}
-                                <a href="{{ path('sortie_edit', {'id':sortie.id}) }}" alt="modifier ma sortie à {{ sortie.lieu.nom }}" class="btn btn-warning d-inline justify-content-center">Modifier </a>
-                            {%  endif %}
+                                {%  if app.user.id == sortie.organisateur.id %}
+                                    <a href="{{ path('sortie_edit', {'id':sortie.id}) }}" alt="modifier ma sortie à {{ sortie.lieu.nom }}" class="btn btn-warning d-inline justify-content-center">Modifier </a>
+                                    <a href="{{ path('annuler_sortie', {'id':sortie.id}) }}" alt="annuler {{ sortie.lieu.nom }}" class="btn btn-danger d-inline justify-content-center">Annuler sa sortie </a>
 
-                            {%  if app.user.id != sortie.organisateur.id %}
-                                <a href="{{ path('ajout_sortie', {'id': sortie.id}) }}"class="d-inline justify-content-center {% if app.user.mesSorties.contains(sortie) %} btn btn-danger "> Se desinscrire{% else %} btn btn-success"> S'inscrire à la sortie{% endif %}</a>
-                            {%  endif %}
+                                {%  endif %}
 
+                                {%  if app.user.id != sortie.organisateur.id %}
+                                    <a href="{{ path('ajout_sortie', {'id': sortie.id}) }}"class="d-inline justify-content-center {% if app.user.mesSorties.contains(sortie) %} btn btn-danger "> Se desinscrire{% else %} btn btn-success"> S'inscrire à la sortie{% endif %}</a>
+                                {%  endif %}
+
+                            {% endif %}
                         {% endif %}
-
                     </div>
 
 
