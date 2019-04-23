@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container-fluid">
+<div class="row">
+
+    {% for sortie in sorties %}
+    <div class="col-sm-3 mb-4">
+        <div class="card detail">
+            <div class="image-card d-flex justify-content-center">
+                <img src="{{ asset('img/sortie.png') }}" class="img-fluid card-img-top" alt="{{ sortie.nom }}">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ sortie.nom }}</h5>
+                <p class="card-text">
+                    <b>Lieu:</b> {{ sortie.lieu.nom }}<br>
+                    <b>Date:</b> {{ sortie.dateHeureDebut|date('d/m/Y à h:m') }}<br>
+                    <b>Organisateur:</b>
+                    {% if is_granted ('ROLE_USER') %}
+                        <a href="{{ path('utilisateur_profil', {'id':sortie.organisateur.id}) }}">
+                            {{ sortie.organisateur.nom }}
+                        </a>
+                    {% else %}
+                        {{ sortie.organisateur.nom }}
+                    {%  endif %}
+                    <br>
+                    <b>Inscrits:</b> {{ sortie.participants ? sortie.participants.count() : '' }} / {{ sortie.nbInscriptionsMax }}<br>
+                    <b>Etat:</b> {{ sortie.etat.libelle }}
+            </div>
+
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+</div>
+{% endblock %}
+
+
+
