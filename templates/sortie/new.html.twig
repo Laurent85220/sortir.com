@@ -22,54 +22,49 @@
                     {{form_row(formSortie.duree) }}
                     {{form_row(formSortie.infosSortie) }}
                     <p>Ville organisatrice : {{ organisateur.centreFormation.nom}}</p>
-                    {{form_row(formSortie.lieu) }}
-                    <button class="btn btn-success">Valider</button>
+                    <div class="row">
+                            <div class="d-inline col-md-10">
+                        {{form_row(formSortie.lieu) }}
+                        </div>
+                            <div class="d-inline col-md-2">
+                            <button type="button" class="btn btn-outline-warning " data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><img src="{{ asset('img/pics/plus.png') }}"></button>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-3">
+                   {{form_widget(formSortie.enregistrer) }}
+                        {{form_widget(formSortie.publier) }}
+                        <a href="{{ path('home') }}" class="btn btn-danger d-inline-flex">Annuler</a>
+                    </div>
+
                     {{ form_end(formSortie) }}
 
-                   <!-- <p>Organisateur : {{ organisateur.nom }}</p> -->
-
-
-
-                      {#   <select id="ville">
-
-                            {% for ville in villes %}
-                                <option value="{{ ville.id }}">{{ ville.nom }}</option>
-                            {% endfor %}
-                            <!--
-                            <option>Poitiers</option>
-                            <option>La Roche Sur Yon</option>
-                            -->
-                        </select>
-
                     <br>
-
-                        <select id="lieu" d>
-                            <option value="0">Lieu</option>
-                            {% for lieu in lieux %}
-                                <option value="{{ lieu.id }}">{{ lieu.nom }}</option>
-                            {% endfor %}
-                            <!--
-                            <option>Le top bar</option>
-                            <option>Le pire bar</option>
-                            -->
-                        </select>
-
-                    <div id="resultat"></div>
-                    <script>
-                        var ville = document.getElementById("ville");
-                        ville.addEventListener("change",function(){
-                            document.getElementById("resultat").innerHTML=ville.options[ville.selectedIndex].value;
-
-                        });
-                    </script>
-                    <script>
-                        var lieu = document.getElementById("lieu");
-                        ville.addEventListener("change",function(){
-                            document.getElementById("resultat").innerHTML=lieu.options[lieu.selectedIndex].value;
-                        });
-                    </script>
-                    <br>#}
-
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Ajout d'un lieu</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    {{ form_start(formLieu) }}
+                                    <p>Nom :  {{ form_widget(formLieu.nom) }} </p>
+                                    <p>Rue : {{ form_widget(formLieu.rue) }}</p>
+                                    <p>Latitude : {{ form_widget(formLieu.latitude) }}</p>
+                                    <p>Longitude : {{ form_widget(formLieu.longitude) }}</p>
+                                    <p>Ville : {{ form_widget(formLieu.ville) }}</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                                    <button class="btn btn-info">{{ button_label|default('Valider') }}</button>
+                                    {{ form_end(formLieu) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
