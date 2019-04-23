@@ -3,12 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
-use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Utilisateur;
-use App\Entity\Ville;
 use App\Form\AnnulerSortieType;
-use App\Form\LieuType;
 
 use App\Form\SortieType;
 use App\Repository\LieuRepository;
@@ -179,24 +176,52 @@ class SortieController extends Controller
 
         if ($formannul->isSubmitted() && $formannul->isValid()) {
             if ($sortie->getOrganisateur() === $this->getUser()) {
-                //changement de l'état de la sortie à 'annulée'
-                $etat = $entityManager->getRepository(Etat::class)->find('6');
-                $sortie->setEtat($etat);
-                // envoi du mail aux participants
-                $this->get('event_dispatcher')->dispatch('annulation_sortie', new GenericEvent($sortie));
+
                 //ajout du message flash informant de l'annulation de la sortie
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->flush();
 
-                $this->addFlash("danger", "La sortie à étée annulée et un mail a été envoyé aux participants pour les en informés");
 
-                return $this->redirectToRoute('home');
+                return $this->render('sortie/mail.html.twig', [
+                    'sortie' => $sortie,]);
             }
         }
         return $this->render('sortie/annuler.html.twig',
             [
                 'sortie' => $sortie,
                 'form' => $formannul->createView(),]);
+
+    }
+
+
+
+    /**
+     * @Route("/mail{id}", name="mail_sortie", methods={"GET","POST"})
+     */
+    public function validmail(EntityManagerInterface $entityManager, Request $request, Sortie $sortie)
+    {
+
+        //changement de l'état de la sortie à 'annulée'
+        $etat = $entityManager->getRepository(Etat::class)->find('6');
+        $sortie->setEtat($etat);
+        // envoi du mail aux participants
+        $this->get('event_dispatcher')->dispatch('annulation_sortie', new GenericEvent($sortie));
+        //ajout du message flash informant de l'annulation de la sortie
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+        $this->addFlash("danger", "Votre sortie a été annulé et un mail informant les participants de l'annulation vient d'etre envoyé. ");
+        return $this->redirectToRoute('home');
+    }
+    /**
+     * @Route("/cancel_mail{id}", name="cancel_mail", methods={"GET","POST"})
+     */
+    public function annulermail(EntityManagerInterface $entityManager, Request $request, Sortie $sortie)
+    {
+        $sortie->setMotif(null);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+
+        return $this->redirectToRoute('home');
 
     }
 
