@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Etat;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -50,6 +51,16 @@ class SortieRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
             ;
+    }
+
+    public function findSortiearchive() {
+
+        $req = $this->createQueryBuilder('s');
+        $req->innerJoin('s.etat','e');
+        $req->where('e.id=7');
+        
+        return $req->getQuery()->getResult();
+
     }
 
     // /**
