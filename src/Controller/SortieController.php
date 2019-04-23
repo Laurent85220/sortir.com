@@ -199,4 +199,5 @@ class SortieController extends Controller
                 'form' => $formannul->createView(),]);
 
     }
+
 }

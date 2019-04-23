@@ -58,7 +58,7 @@ class SortieRepository extends ServiceEntityRepository
         $req = $this->createQueryBuilder('s');
         $req->innerJoin('s.etat','e');
         $req->where('e.id=7');
-        
+
         return $req->getQuery()->getResult();
 
     }
