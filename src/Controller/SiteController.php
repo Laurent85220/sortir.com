@@ -20,10 +20,12 @@ class SiteController extends Controller
     /**
      * @Route("/", name="site_index", methods={"GET"})
      */
-    public function index(SiteRepository $siteRepository): Response
+    public function index(SiteRepository $siteRepository,Request $request): Response
     {
+        $search= $request->get('search');
+
         return $this->render('site/index.html.twig', [
-            'sites' => $siteRepository->findAll(),
+            'sites' => $siteRepository->findForSearch($search),
         ]);
     }
 

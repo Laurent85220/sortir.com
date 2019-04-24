@@ -18,7 +18,24 @@ class SiteRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Site::class);
     }
+    public function findForSearch($search)
+    {
+        $dql = '
+            SELECT s
+            FROM App\Entity\Site s
+            WHERE UPPER(s.nom) LIKE :nom
+        ';
 
+        return $this
+            ->getEntityManager()
+            ->createQuery($dql)
+            ->setParameter(
+                'nom',
+                '%'.strtoupper($search).'%'
+            )
+            ->getResult();
+
+    }
     // /**
     //  * @return Site[] Returns an array of Site objects
     //  */
