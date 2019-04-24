@@ -26,17 +26,22 @@ class MainController extends Controller
 //        $centreParDefaut = $utilisateur->getCentreFormation();
         // la page d'accueil est différente si l'on est un utilisateur identifié ou non
         if ($this->getUser()) {
-            $sorties = $sortieRepository->findAll();
+            $sorties = $sortieRepository->listeToutesSorties();
         } else {
             // note: avec la fonction listeAccueilInvite, on peut limiter le nombre de résultats
-            $sorties = $sortieRepository ->listeAccueilInvite(0,8);
+            $sorties = $sortieRepository ->listeAccueilInvite();
         }
 
         $formRechercher = $this->createForm(RechercherType::class);
         $formRechercher->handleRequest($request);
         if ($formRechercher->isSubmitted()) {
+            // récupérer les données du formulaire
             $filtres = $formRechercher->getData();
-            
+            // envoyer la requête et retourner la liste de sorties filtrée
+            return $this->render('main/index.html.twig', [
+                'sorties'=>$sortieRepository->rechercheParFiltres($filtres),
+                'formRechercher'=>$formRechercher->createView(),
+            ]);
         }
 
         return $this->render('main/index.html.twig', [

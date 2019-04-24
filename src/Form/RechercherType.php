@@ -22,16 +22,15 @@ class RechercherType extends AbstractType
         $builder
             ->add('site', EntityType::class,[
                 'choice_label'=>'nom',
-                'required'=>'false',
                 'label'=>'Centre de formation : ',
-                'placeholder'=>'pour filtrer en fonction de son centre de formation',
-//                'preferred_choices'=>$centreParDefaut, TODO: comment récupérer le centre de l'utilisateur?
+                'placeholder'=>'Tous',
+//                'preferred_choices'=>$options['site'], // TODO: comment récupérer le centre de l'utilisateur?
                 'class'=> Site::class,
             ])
             ->add('champ_recherche', SearchType::class, [
-                'required'=>'false',
                 'empty_data'=>'',
-                'label'=>'Le nom de la sortie contient : '
+                'trim'=>true,
+                'label'=>'mot clé : '
             ])
             ->add('date_debut', DateType::class, [
                 'label'=>'Entre ',
@@ -40,26 +39,26 @@ class RechercherType extends AbstractType
                 'placeholder'=>['day'=>'jour', 'month'=>'mois', 'year'=>'année'],
             ])
             ->add('date_fin', DateType::class, [
-                'label'=>' et ',
+                'label'=>' Et ',
                 'widget'=>'choice',
                 'format'=>'d M y',
                 'placeholder'=> ['day'=>'jour', 'month'=>'mois', 'year'=>'année'],
             ])
             ->add('sortiesOrganisees', CheckboxType::class, [
                 'label'=>'Sorties dont je suis l\'organisateur / trice',
-                'value'=>'true',
+//                'value'=>'true',
             ])
             ->add('mesSorties', CheckboxType::class, [
                 'label'=>'Sorties auxquelles je suis inscrit/e',
-                'value'=>'true',
+//                'value'=>'true',
             ])
             ->add('AutresSortiesEnCours', CheckboxType::class, [
                 'label'=>'Sorties auxquelles je ne suis pas inscrit/e',
-                'value'=>'true',
+//                'value'=>'true',
             ])
             ->add('SortiesPassees', CheckboxType::class, [
                 'label'=>'Sorties passées',
-                'value'=>'true',
+//                'value'=>'true',
             ])
 //            ->add('filtres_sorties', ChoiceType::class, [
 //                'label'=>'Filtres : ',
@@ -83,7 +82,7 @@ class RechercherType extends AbstractType
         $resolver->setDefaults([
             'attr'=> [
                 'novalidate'=>'novalidate',
-            ]
+            ],
         ]);
     }
 }
