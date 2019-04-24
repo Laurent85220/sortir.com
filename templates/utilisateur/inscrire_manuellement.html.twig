@@ -13,15 +13,16 @@
                         <div class="card-body mt-3 p-3 ">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <p class="text-center"><b>Organisateur:</b> <a href="{{ path('utilisateur_profil', {'id':
-                                                sortie.organisateur.id}) }}">{{ sortie.organisateur.nom }}</a></p>
-
+                                        <div class="row">
+                                        <p><div class="col-md-8"><b>Organisateur:</b> <a href="{{ path('utilisateur_profil', {'id':
+                                                sortie.organisateur.id}) }}">{{ sortie.organisateur.nom }}</a></div>
+                                        <div class="col-md-4"><a href="{{ path('annuler_sortie', {'id':sortie.id}) }}" alt="annuler {{ sortie.lieu.nom }}" class="btn btn-outline-dark d-inline " title="Annuler une sortie"><img class="btn-icons mb-1" src="{{ asset('img/pics/annuler.png') }}" alt="Annuler une sortie"></a>
+                                        </div>
+                                        </div></p>
                                     </div>
-                                    <div class="col-md-6 text-center">
+                                    <div class="col-md-6">
                                         <p><b>Lieu:</b> {{ sortie.lieu.nom }}</p>
                                         <p><b>Date:</b> {{ sortie.dateHeureDebut|date('d/m/Y à h:m') }}</p>
-
-
                                     </div>
                                     <div class="col-md-6 text-center">
                                         <p> <b>Inscrits:</b> {{ sortie.participants ? sortie.participants.count() : '' }} / {{ sortie.nbInscriptionsMax }}</p>
