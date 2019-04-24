@@ -3,15 +3,6 @@
 {% block title %}Modfier mon profil{% endblock %}
 
 {% block body %}
-    <div class="Container-fluid mt-5">
-        {% for label, messages in app.flashes %}
-            {%  for message in messages %}
-                <div class="alert-{{ label }} col-sm-4 offset-sm-4 text-center p-3">
-                    {{ message  }}
-                </div>
-            {% endfor %}
-        {% endfor %}
-
         <div class="row">
             <div class="card detail col-md-8 offset-2 p-0">
                 <div  class="card-header">
