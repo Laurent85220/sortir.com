@@ -62,7 +62,7 @@ class SortieRepository extends ServiceEntityRepository
     public function listeToutesSorties() {
         return $this->createQueryBuilder('lts')
             // etats: 5: passée; 6 = annulée; 7 = archivée
-            ->andWhere('lts.etat !=5')
+//            ->andWhere('lts.etat !=5')
             ->andWhere('lts.etat !=6')
             ->andWhere('lts.etat !=7')
             ->addOrderBy('lts.dateHeureDebut', 'DESC')

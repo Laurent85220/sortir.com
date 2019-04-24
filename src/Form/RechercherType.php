@@ -34,15 +34,17 @@ class RechercherType extends AbstractType
             ])
             ->add('date_debut', DateType::class, [
                 'label'=>'Entre ',
-                'widget'=>'choice',
-                'format'=>'d M y',
-                'placeholder'=>['day'=>'jour', 'month'=>'mois', 'year'=>'année'],
+                'widget'=>'single_text',
+                'html5'=>'true',
+//                'format'=>'d M y',
+//                'placeholder'=>['day'=>'jour', 'month'=>'mois', 'year'=>'année'],
             ])
             ->add('date_fin', DateType::class, [
                 'label'=>' Et ',
-                'widget'=>'choice',
-                'format'=>'d M y',
-                'placeholder'=> ['day'=>'jour', 'month'=>'mois', 'year'=>'année'],
+                'widget'=>'single_text',
+                'html5'=>'true',
+//                'format'=>'d M y',
+//                'placeholder'=> ['day'=>'jour', 'month'=>'mois', 'year'=>'année'],
             ])
             ->add('sorties_organisees', CheckboxType::class, [
                 'label'=>'Sorties dont je suis l\'organisateur / trice',
