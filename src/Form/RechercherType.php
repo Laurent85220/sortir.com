@@ -44,19 +44,19 @@ class RechercherType extends AbstractType
                 'format'=>'d M y',
                 'placeholder'=> ['day'=>'jour', 'month'=>'mois', 'year'=>'année'],
             ])
-            ->add('sortiesOrganisees', CheckboxType::class, [
+            ->add('sorties_organisees', CheckboxType::class, [
                 'label'=>'Sorties dont je suis l\'organisateur / trice',
 //                'value'=>'true',
             ])
-            ->add('mesSorties', CheckboxType::class, [
+            ->add('mes_sorties', CheckboxType::class, [
                 'label'=>'Sorties auxquelles je suis inscrit/e',
 //                'value'=>'true',
             ])
-            ->add('AutresSortiesEnCours', CheckboxType::class, [
+            ->add('sorties_en_cours', CheckboxType::class, [
                 'label'=>'Sorties auxquelles je ne suis pas inscrit/e',
 //                'value'=>'true',
             ])
-            ->add('SortiesPassees', CheckboxType::class, [
+            ->add('sorties_passees', CheckboxType::class, [
                 'label'=>'Sorties passées',
 //                'value'=>'true',
             ])

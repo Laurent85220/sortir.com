@@ -22,7 +22,7 @@ class MainController extends Controller
     public function index(SortieRepository $sortieRepository, SiteRepository $siteRepository, Request $request): Response
     {
         // récupérer le centre de formation de l'utilisateur pour l'afficher par défaut dans les filtres de recherche
-//        $utilisateur = $this->getUser();
+        $utilisateur = $this->getUser();
 //        $centreParDefaut = $utilisateur->getCentreFormation();
         // la page d'accueil est différente si l'on est un utilisateur identifié ou non
         if ($this->getUser()) {
@@ -37,9 +37,10 @@ class MainController extends Controller
         if ($formRechercher->isSubmitted()) {
             // récupérer les données du formulaire
             $filtres = $formRechercher->getData();
+
             // envoyer la requête et retourner la liste de sorties filtrée
             return $this->render('main/index.html.twig', [
-                'sorties'=>$sortieRepository->rechercheParFiltres($filtres),
+                'sorties'=>$sortieRepository->rechercheParFiltres($filtres, $utilisateur),
                 'formRechercher'=>$formRechercher->createView(),
             ]);
         }
