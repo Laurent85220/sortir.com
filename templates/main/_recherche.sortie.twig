@@ -25,9 +25,11 @@
 
         {{ form_row(formRechercher.btn_rechercher) }}
 
-        <a href="{{ path('sortie_new') }}" class="btn btn-primary">Nouvelle sortie</a>
-
         {{ form_end(formRechercher) }}
+
+        <div>
+            <a href="{{ path('sortie_new') }}" class="btn btn-primary justify-content-center d-none d-lg-inline-block">Nouvelle sortie</a>
+        </div>
 
     </div>
 </div>
