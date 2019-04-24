@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<div class="container-fluid mb-5">
+    <div class="container-fluid mb-5">
     {% if is_granted ('ROLE_USER') %}
         {# TODO: infos date du jour et nom utilisateur connecté, justifiées à droite #}
         {{ include('main/_recherche.sortie.twig') }}
@@ -27,7 +27,7 @@
                             <b>Organisateur:</b>
                             {% if is_granted ('ROLE_USER') %}
                                 <a href="{{ path('utilisateur_profil', {'id':sortie.organisateur.id}) }}">
-                                {{ sortie.organisateur.nom }}
+                                    {{ sortie.organisateur.nom }}
                                 </a>
                             {% else %}
                                 {{ sortie.organisateur.nom }}
@@ -41,24 +41,6 @@
                                 {% if is_granted ('ROLE_USER') %}
                                     <a href="{{ path('sortie_show', {'id':sortie.id}) }}" class="btn btn-outline-primary d-inline justify-content-center mr-2" title="En savoir +"><img class="btn-icons mb-1" src="{{ asset('img/pics/savoir+.png') }}" alt="En savoir +"></a>
 
-
-                    <div class="card-body">
-                        {% if sortie.etat.libelle!='Annulée' %}
-                            {% if is_granted ('ROLE_USER') %}
-                                <a href="{{ path('sortie_show', {'id':sortie.id}) }}" class="btn btn-outline-primary d-inline justify-content-center" title="En savoir +">
-                                    <img class="btn-icons mb-1" src="{{ asset('img/pics/savoir+.png') }}" alt="En savoir +"></a>
-                                {%  if app.user.id == sortie.organisateur.id %}
-                                    <a href="{{ path('sortie_edit', {'id':sortie.id}) }}" alt="modifier ma sortie à {{ sortie.lieu.nom }}" class="btn btn-outline-success d-inline justify-content-center" title="Modifier une sortie">
-                                        <img class="btn-icons mb-1" src="{{ asset('img/pics/editer_sortie.png') }}" alt="Modifier une sortie"></a>
-                                    <a href="{{ path('annuler_sortie', {'id':sortie.id}) }}" alt="annuler {{ sortie.lieu.nom }}" class="btn btn-outline-dark d-inline justify-content-center" title="Annuler une sortie">
-                                        <img class="btn-icons mb-1" src="{{ asset('img/pics/annuler.png') }}" alt="Annuler une sortie"></a>
-                                {%  endif %}
-                                {%  if app.user.id != sortie.organisateur.id and sortie.etat.id<4 %}
-                                    <a href="{{ path('ajout_sortie', {'id': sortie.id}) }}"class="d-inline justify-content-center {% if app.user.mesSorties.contains(sortie) %} btn btn-outline-danger" title="Se désinscrire à une sortie">
-                                        <img class="btn-icons mb-1" src="{{ asset('img/pics/deinscrire_sortie.png') }}" alt="Se désinscrire à une sortie">{% else  %} btn btn-outline-success" title="S'inscrire à une sortie">
-                                        <img class="btn-icons mb-1" src="{{ asset('img/pics/inscription_sortie.png') }}" alt="S'inscrire à une sortie">{% endif %}</a>
-                                {%  endif %}
-
                                     {%  if app.user.id == sortie.organisateur.id %}
                                         <a href="{{ path('sortie_edit', {'id':sortie.id}) }}" alt="modifier ma sortie à {{ sortie.lieu.nom }}" class="btn btn-outline-success d-inline justify-content-center mr-2" title="Modifier une sortie"><img class="btn-icons mb-1" src="{{ asset('img/pics/editer_sortie.png') }}" alt="Modifier une sortie"></a>
                                         <a href="{{ path('annuler_sortie', {'id':sortie.id}) }}" alt="annuler {{ sortie.lieu.nom }}" class="btn btn-outline-dark d-inline justify-content-center mr-2" title="Annuler une sortie"><img class="btn-icons mb-1" src="{{ asset('img/pics/annuler.png') }}" alt="Annuler une sortie"></a>
@@ -66,11 +48,17 @@
                                     {%  endif %}
 
                                     {%  if app.user.id != sortie.organisateur.id %}
-                                        <a href="{{ path('ajout_sortie', {'id': sortie.id}) }}"class="d-inline justify-content-center {% if app.user.mesSorties.contains(sortie) %} btn btn-outline-danger" title="Se désinscrire à une sortie"><img class="btn-icons mb-1" src="{{ asset('img/pics/deinscrire_sortie.png') }}" alt="Se désinscrire à une sortie">{% else %} btn btn-outline-success" title="S'inscrire à une sortie"><img class="btn-icons mb-1" src="{{ asset('img/pics/inscription_sortie.png') }}" alt="S'inscrire à une sortie">{% endif %}</a>
+                                        {% if app.user.mesSorties.contains(sortie) and sortie.etat.id<4 %}
+                                            <a href="{{ path('ajout_sortie', {'id': sortie.id}) }}"class="d-inline justify-content-center btn btn-outline-danger" title="Se désinscrire à une sortie">
+                                                <img class="btn-icons mb-1" src="{{ asset('img/pics/deinscrire_sortie.png') }}" alt="Se désinscrire à une sortie"></a>
+
+                                        {% elseif sortie.etat.id<3 %}
+                                            <a href="{{ path('ajout_sortie', {'id': sortie.id}) }}"class="d-inline justify-content-center btn btn-outline-success" title="S'inscrire à une sortie">
+                                            <img class="btn-icons mb-1" src="{{ asset('img/pics/inscription_sortie.png') }}" alt="S'inscrire à une sortie"></a>
+                                        {% endif %}
                                     {%  endif %}
 
                                 {% endif %}
-
                             {% endif %}
                         </div>
                     </div>
@@ -79,16 +67,15 @@
         {% else %}
             <div class="col-sm-3 mt-4 mb-4">
                 <div class="card detail">
-                    <div class="card-body">
-                        {% if is_granted('ROLE_USER') %}
-                        <h5 class="card-title">échec de la recherche!</h5>
-                        <p class="card-text">
-                            Aucune sortie ne correspond à vos critères!
-                        </p>
-                        {% else %}
-                            <h5 class="card-title">Aucune sortie en cours</h5>
-                        {% endif %}
+                    <div class="image-card d-flex justify-content-center">
+                        <img src="{{ asset('img/sortie.png') }}" class="img-fluid card-img-top" alt="idées sorties en france">
                     </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">échec de la recherche!</h5>
+                    <p class="card-text">
+                        Aucune sortie ne correspond à vos critères!
+                    </p>
                 </div>
             </div>
         {% endfor %}
