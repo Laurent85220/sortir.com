@@ -1,9 +1,35 @@
-<nav>
-        <h2>Filtrer les sorties</h2>
+<div class="jumbotron">
+    <div class="">
+        <h5 class="">Filtrer les sorties</h5>
+    </div>
+    <div class="">
+
         {# nouveau formulaire de recherche #}
-        {{ form(formRechercher) }}
+        {{ form_start(formRechercher) }}
+
+        {{ form_row(formRechercher.site) }}
+
+        {{ form_row(formRechercher.champ_recherche) }}
+
+        {{ form_row(formRechercher.date_debut) }}
+
+        {{ form_row(formRechercher.date_fin) }}
+
+        {{ form_row(formRechercher.sortiesOrganisees) }}
+
+        {{ form_row(formRechercher.mesSorties) }}
+
+        {{ form_row(formRechercher.AutresSortiesEnCours) }}
+
+        {{ form_row(formRechercher.SortiesPassees) }}
+
+        {{ form_row(formRechercher.btn_rechercher) }}
+
+        {{ form_end(formRechercher) }}
 
         <div>
-            <a href="{{ path('sortie_new') }}" class="btn btn-primary d-inline justify-content-center">Nouvelle sortie</a>
+            <a href="{{ path('sortie_new') }}" class="btn btn-primary  justify-content-center d-none  d-sm-inline-block ">Nouvelle sortie</a>
         </div>
-</nav>
+
+    </div>
+</div>

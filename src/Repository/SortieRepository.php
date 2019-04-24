@@ -31,27 +31,75 @@ class SortieRepository extends ServiceEntityRepository
 
     }
 
-    public function listeAccueilInvite($nbFirstResult, $nbMaxResult)
+    public function listeAccueilInvite($nbFirstResult=-1, $nbMaxResult=-1)
     {
-        return $this->createQueryBuilder('ld')
-            ->andWhere('ld.etat = 2')
+        $query = $this->createQueryBuilder('ld');
+        $query->andWhere('ld.etat = 2')
             ->addOrderBy('ld.dateHeureDebut', 'DESC')
+            ->getQuery();
+        // prendre en compte les paramètres de la fonction si attribués
+        if ($nbFirstResult>=0){
+            $query->setFirstResult($nbFirstResult);
+        }
+        if ($nbMaxResult>=0){
+            $query->setMaxResults($nbMaxResult);
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * Cette fonction retourne toutes les sorties de la base par ordre de date d'évènement.
+     * Elle filtre cependant les sorties passées, annulées et archivées.
+     * Elle est utilisée par la page d'accueil lorsqu'un utilisateur est en session.
+     */
+    public function listeToutesSorties() {
+        return $this->createQueryBuilder('lts')
+            // etats: 5: passée; 6 = annulée; 7 = archivée
+            ->andWhere('lts.etat !=5')
+            ->andWhere('lts.etat !=6')
+            ->andWhere('lts.etat !=7')
+            ->addOrderBy('lts.dateHeureDebut', 'DESC')
             ->getQuery()
-            ->setFirstResult($nbFirstResult)
-            ->setMaxResults($nbMaxResult)
             ->getResult();
     }
 
+    /**
+     * Cette fonction est appelée lorsqu'un utilisateur lance une recherche depuis la page d'accueil.
+     */
     public function rechercheParFiltres($filtres)
     {
-        return $this->createQueryBuilder('rpf')
-            ->andWhere('rpf.centreFormation = :val')
-            ->setParameter('val', $filtres)
+
+        $query = $this->createQueryBuilder('rpf');
+
+        // filtre par centre de formation
+        if ($filtres['site']) {
+            $query
+                ->andWhere('rpf.centreFormation = :site')
+                ->setParameter('site', $filtres['site']);
+        }
+
+        // filtre texte
+        if ($filtres['champ_recherche']) {
+            $query
+                ->andWhere(
+                    $query->expr()->orX(
+                        $query->expr()->like('rpf.nom', ':mot'),
+                        $query->expr()->like('rpf.infosSortie', ':mot')
+                        )
+                )
+                ->setParameter('mot', '%'.$filtres['champ_recherche'].'%');
+        }
+
+        // filtre date
+
+        // filtre checkbox
+
+
+        return $query
             ->orderBy('rpf.dateHeureDebut', 'DESC')
-            ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     public function findSortiearchive() {
