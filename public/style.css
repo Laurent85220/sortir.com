@@ -17,3 +17,8 @@ body {
 .card-header{
     color :#8959A8;
 }
+
+.btn-icons{
+    width: 30px;
+    height: 30px;
+}
