@@ -3,7 +3,16 @@
 {% block title %}Ville{% endblock %}
 
 {% block body %}
-    <h1>Ville</h1>
+<div class="row">
+    <div class="card detail col-md-8 offset-2 p-0">
+        <div  class="card-header">
+            <h1>Gestion des Villes</h1>
+        </div>
+
+        <div class="card-text mt-3 p-3">
+            <div class="row">
+                <div class="col-md-12">
+
 
     <table class="table">
         <tbody>
@@ -16,15 +25,23 @@
                 <td>{{ ville.nom }}</td>
             </tr>
             <tr>
-                <th>Cp</th>
+                <th>Code postal</th>
                 <td>{{ ville.cp }}</td>
             </tr>
         </tbody>
     </table>
+                    <div class="row justify-content-center">
 
-    <a href="{{ path('ville_index') }}">back to list</a>
 
-    <a href="{{ path('ville_edit', {'id': ville.id}) }}">edit</a>
+                        <a href="{{ path('ville_edit', {'id': ville.id}) }}"class="btn btn-warning d-inline-flex mr-2">Modifier</a>
+
 
     {{ include('ville/_delete_form.html.twig') }}
+                        <a href="{{ path('ville_index') }}"class="btn btn-primary d-inline-flex mr-2">Retour</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
 {% endblock %}

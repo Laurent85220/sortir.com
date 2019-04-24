@@ -29,7 +29,7 @@ class MainController extends Controller
             $sorties = $sortieRepository->findAll();
         } else {
             // note: avec la fonction listeAccueilInvite, on peut limiter le nombre de résultats
-            $sorties = $sortieRepository ->listeAccueilInvite();
+            $sorties = $sortieRepository ->listeAccueilInvite(0,8);
         }
 
         $formRechercher = $this->createForm(RechercherType::class);
