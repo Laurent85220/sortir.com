@@ -31,6 +31,12 @@ class SortieRepository extends ServiceEntityRepository
 
     }
 
+    /**
+     * Cette fonction retourne toutes les sorties dont l'état est en cours.
+     * Elle est utilisée pour "peupler" la page d'accueil du site quand le visiteur n'est pas identifié
+     * Elle prend 2 paramètres, pour déterminer le nombre maximum de sorties affichées,
+     * et à partir de quel résultat on affiche (dans l'idée d'une pagination éventuelle)
+     */
     public function listeAccueilInvite($nbFirstResult=-1, $nbMaxResult=-1)
     {
         $query = $this->createQueryBuilder('ld');
@@ -67,19 +73,19 @@ class SortieRepository extends ServiceEntityRepository
     /**
      * Cette fonction est appelée lorsqu'un utilisateur lance une recherche depuis la page d'accueil.
      */
-    public function rechercheParFiltres($filtres)
+    public function rechercheParFiltres($filtres, $utilisateur)
     {
 
         $query = $this->createQueryBuilder('rpf');
 
-        // filtre par centre de formation
+        // filtre par centre de formation => 'site'
         if ($filtres['site']) {
             $query
                 ->andWhere('rpf.centreFormation = :site')
                 ->setParameter('site', $filtres['site']);
         }
 
-        // filtre texte
+        // filtre texte => 'champ_recherche'
         if ($filtres['champ_recherche']) {
             $query
                 ->andWhere(
@@ -91,12 +97,40 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('mot', '%'.$filtres['champ_recherche'].'%');
         }
 
-        // filtre date
+        // filtre date => 'date_debut' et 'date_fin'
+        if ($filtres['date_debut']) {
+            $query
+                ->andWhere('rpf.dateHeureDebut > :dateDebut')
+                ->setParameter('dateDebut', $filtres['date_debut']);
+        }
+        if ($filtres['date_fin']) {
+            $query
+                ->andWhere('rpf.dateHeureDebut < :dateFin')
+                ->setParameter('dateFin', $filtres['date_fin']);
+        }
 
-        // filtre checkbox
+        // filtre checkbox organisateur => 'sorties_organisees'
+        if ($filtres['sorties_organisees']) {
+            $query
+                ->andWhere('rpf.organisateur = :organisateur')
+                ->setParameter('organisateur', $utilisateur->getId());
+        }
 
+        // filtre checkbox sorties inscrit => 'mes_sorties'
+
+        // filtre checkbox sorties non-inscrit => 'sorties_en_cours'
+
+        // filtre checkbox sorties passées => 'sorties_passees'
+        if ($filtres['sorties_passees']) {
+            $query
+                ->andWhere('rpf.etat = 5');
+        }
 
         return $query
+            // etats: 5: passée; 6 = annulée; 7 = archivée
+//            ->andWhere('lts.etat !=5')
+            ->andWhere('rpf.etat !=6')
+            ->andWhere('rpf.etat !=7')
             ->orderBy('rpf.dateHeureDebut', 'DESC')
             ->getQuery()
             ->getResult();
