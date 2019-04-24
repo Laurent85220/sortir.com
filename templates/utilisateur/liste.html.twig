@@ -23,9 +23,11 @@
                             <p><b>Email :</b> {{ utilisateur.email }}</p>
                             <p><b>Ville de rattachement :</b> {{ utilisateur.centreFormation.nom }}</p>
                         </div>
+                        {% if  utilisateur.administrateur==false  %}
                         <div class="col-12 text-center mt-2">
-                            <a href="{{ path('supprimer',{'id':utilisateur.id}) }}" class="btn btn-danger d-inline-flex">Supprimer</a>
+                            <a href="{{ path('supprimer',{'id':utilisateur.id}) }}" class="btn btn-danger d-inline-flex" onsubmit="return confirm('Are you sure you want to delete this item?')">Supprimer</a>
                         </div>
+                        {% endif %}
                     </div>
 
                 </div>
