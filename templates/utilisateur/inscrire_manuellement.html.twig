@@ -15,6 +15,7 @@
                                     <div class="col-md-12">
                                         <p class="text-center"><b>Organisateur:</b> <a href="{{ path('utilisateur_profil', {'id':
                                                 sortie.organisateur.id}) }}">{{ sortie.organisateur.nom }}</a></p>
+
                                     </div>
                                     <div class="col-md-6 text-center">
                                         <p><b>Lieu:</b> {{ sortie.lieu.nom }}</p>
@@ -32,7 +33,7 @@
                                         <tr>
                                             <th>Id</th>
                                             <th class="text-center">Nom</th>
-                                            <th class="text-center">actions</th>
+                                            <th class="text-center">Inscrire/Desinscrire</th>
                                         </tr>
                                         </thead>
                                         <tbody>
