@@ -1,4 +1,5 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <button class="btn btn-warning d-inline-flex">{{ button_label|default('Ajouter') }}</button>
+<a href="{{ path('ville_index') }}"class="btn btn-primary d-inline-flex">Retour</a>
 {{ form_end(form) }}

@@ -49,13 +49,20 @@
                                aria-disabled="true">Se déconnecter</a>
                         </li>
                     {% if is_granted ("ROLE_ADMIN") %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('archiver') }}">Archives<span class="sr-only">(current)</span></a>
-                        </li>
+                        <div class="dropdown mr-5">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ app.user.username }}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href='{{ path('utilisateur_liste') }}'>Utilisateurs</a>
+                                <a class="dropdown-item" href='{{ path('site_index') }}'>Sites</a>
+                                <a class="dropdown-item" href='{{ path('ville_index') }}'>Villes</a>
+                                <a class="dropdown-item" href='{{ path('archiver') }}'>Archives</a>
+                                <a class="dropdown-item" href='{{ path('utilisateur_manuel') }}'>Inscription</a>
+                            </div>
+                        </div>
                         {% endif %}
                     {% else %}
-
-
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('home') }}">Accueil<span class="sr-only">(current)</span></a>
                         </li>

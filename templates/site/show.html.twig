@@ -3,24 +3,42 @@
 {% block title %}Site{% endblock %}
 
 {% block body %}
-    <h1>Site</h1>
+    <div class="row">
+        <div class="card detail col-md-8 offset-2 p-0">
+            <div  class="card-header">
+                <h1>Gestion des Sites</h1>
+            </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ site.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ site.nom }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <div class="card-text mt-3 p-3">
+                <div class="row">
+                    <div class="col-md-12">
 
-    <a href="{{ path('site_index') }}">back to list</a>
 
-    <a href="{{ path('site_edit', {'id': site.id}) }}">edit</a>
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th class="text-center">Id</th>
+                                <th class="text-center">Nom</th>
+                            </tr>
+                            <tr>
+                                <td class="text-center">{{ site.id }}</td>
+                                <td class="text-center">{{ site.nom }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="row justify-content-center">
 
-    {{ include('site/_delete_form.html.twig') }}
+
+                            <a href="{{ path('site_edit', {'id': site.id}) }}"class="btn btn-warning d-inline-flex mr-2">Modifier</a>
+
+
+                            {{ include('site/_delete_form.html.twig') }}
+                            <a href="{{ path('site_index') }}"class="btn btn-primary d-inline-flex mr-2">Retour</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

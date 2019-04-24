@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="Container-fluid mt-5">
+        <div class="row">
+            {% for sortie in sorties %}
+            {% if sortie.etat.id==2 %}
+                <div class="col-sm-4 mb-3">
+                    <div class="card detail">
+                        <div  class="card-header text-center">
+                            <h1>{{sortie.nom }} </h1>
+                        </div>
+                        <div class="card-body mt-3 p-3 ">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="text-center"><b>Organisateur:</b> <a href="{{ path('utilisateur_profil', {'id':
+                                                sortie.organisateur.id}) }}">{{ sortie.organisateur.nom }}</a></p>
+                                    </div>
+                                    <div class="col-md-6 text-center">
+                                        <p><b>Lieu:</b> {{ sortie.lieu.nom }}</p>
+                                        <p><b>Date:</b> {{ sortie.dateHeureDebut|date('d/m/Y à h:m') }}</p>
+
+
+                                    </div>
+                                    <div class="col-md-6 text-center">
+                                        <p> <b>Inscrits:</b> {{ sortie.participants ? sortie.participants.count() : '' }} / {{ sortie.nbInscriptionsMax }}</p>
+                                           <p> <b>Etat:</b> {{ sortie.etat.libelle }}</p>
+                                        </div>
+                                <div class="col-md-12">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th class="text-center">Nom</th>
+                                            <th class="text-center">actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                    {% for utilisateur in utilisateurs %}
+                                    <tr>
+
+                                        {%  if utilisateur.id != sortie.organisateur.id %}
+                                        <td>{{ utilisateur.id }}</td>
+                                        <td class="text-center"> {{ utilisateur.nom }}</td>
+                                        <td class="text-center"><a href="{{ path('ajout_sortie', {'id': sortie.id}) }}"class="d-inline justify-content-center {% if utilisateur.mesSorties.contains(sortie) %} btn btn-outline-danger" title="Se désinscrire à une sortie"><img class="btn-icons mb-1" src="{{ asset('img/pics/deinscrire_sortie.png') }}" alt="Se désinscrire à une sortie">{% else %} btn btn-outline-success" title="S'inscrire à une sortie"><img class="btn-icons mb-1" src="{{ asset('img/pics/inscription_sortie.png') }}" alt="S'inscrire à une sortie">{% endif %}</a>
+                                       {% endif %}
+
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}
+
+

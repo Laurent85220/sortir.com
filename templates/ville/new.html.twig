@@ -3,9 +3,26 @@
 {% block title %}New Ville{% endblock %}
 
 {% block body %}
-    <h1>Create new Ville</h1>
 
-    {{ include('ville/_form.html.twig') }}
+    <div class="card detail col-md-8 offset-2 p-0  align-self-center">
+        <div  class="card-header">
+            <h1>Ajouter une ville</h1>
+        </div>
 
-    <a href="{{ path('ville_index') }}">back to list</a>
+        <div class="card-text mt-3 p-3">
+            <div class="row">
+                <div class="col-md-12">
+
+
+
+                                <div class="text-center">
+                                {{ include('ville/_form.html.twig') }}
+
+                             </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+
 {% endblock %}
