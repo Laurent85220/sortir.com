@@ -102,6 +102,7 @@ class UtilisateurController extends Controller
             $this->addFlash("success","Votre compte a bien été modifié ");
             return $this->redirectToRoute('utilisateur_edition', [
                 'id' => $user->getId(),
+                'utilisateur'=> $user,
             ]);
         }
 
