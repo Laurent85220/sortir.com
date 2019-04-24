@@ -6,15 +6,18 @@ use App\Entity\Sortie;
 use App\Entity\Utilisateur;
 use App\Form\RegistrationFormType;
 use App\Form\UtilisateurType;
+use App\Repository\SortieRepository;
 use App\Repository\UtilisateurRepository;
 use App\Security\Authenticator;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -154,6 +157,41 @@ class UtilisateurController extends Controller
         }
 
         return $this->redirectToRoute('utilisateur_index');
+    }
+    /**
+     *  @IsGranted("ROLE_ADMIN")
+     * @Route("/liste", name="utilisateur_liste", methods={"GET"})
+     */
+    public function lister(UtilisateurRepository $utilisateurRepository): Response
+    {
+        return $this->render('utilisateur/liste.html.twig', [
+            'utilisateurs' => $utilisateurRepository->findAll(),
+        ]);
+    }
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("/supprimer/{id}", name="supprimer", requirements={"id": "\d+"}))
+     */
+    public function remove(Utilisateur $utilisateur,EntityManagerInterface $entityManager,TokenStorageInterface $token)
+    {
+        $entityManager->remove($utilisateur);
+        $entityManager->flush();
+        $this->addFlash("danger","Ce compte a bien été supprimé ");
+
+
+        return $this->redirectToRoute('utilisateur_liste');
+
+    }
+    /**
+     *  @IsGranted("ROLE_ADMIN")
+     * @Route("/inscrire_manuellement", name="utilisateur_manuel", methods={"GET"})
+     */
+    public function manuellement(UtilisateurRepository $utilisateurRepository,SortieRepository $sortieRepository): Response
+    {
+        return $this->render('utilisateur/inscrire_manuellement.html.twig', [
+            'utilisateurs' => $utilisateurRepository->findAll(),
+            'sorties' => $sortieRepository->findAll()
+        ]);
     }
 
 

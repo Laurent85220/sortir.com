@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="Container-fluid mt-5">
+
+        <div class="row">
+    {% for utilisateur in utilisateurs %}
+              <div class="col-sm-4 mb-3">
+                  <div class="card detail">
+                    <div  class="card-header text-center">
+                        <h1>{{ utilisateur.pseudo }} </h1>
+                    </div>
+                <div class="card-body mt-3 p-3">
+                    <div class="row">
+                        <div class="card-img col-md-4 ml-3 border d-flex align-items-center">
+                            <img class="w-100 h-auto" src="{% if utilisateur.file is empty %}{{ asset('img/default.jpg')}}{% endif %}{{  asset('uploads/' ~ utilisateur.file) }}" alt="{{ utilisateur.pseudo }}">
+                        </div>
+                        <div class="col-md-6">
+                            <p><b>Prénom :</b> {{ utilisateur.prenom }}</p>
+                            <p><b>Nom :</b> {{ utilisateur.nom }}</p>
+                            <p><b>Téléphone :</b> {{ utilisateur.telephone }}</p>
+                            <p><b>Email :</b> {{ utilisateur.email }}</p>
+                            <p><b>Ville de rattachement :</b> {{ utilisateur.centreFormation.nom }}</p>
+                        </div>
+                        <div class="col-12 text-center mt-2">
+                            <a href="{{ path('supprimer',{'id':utilisateur.id}) }}" class="btn btn-danger d-inline-flex">Supprimer</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    {% endfor %}
+    </div>
+
+    </div>
+{% endblock %}
+
+
+
