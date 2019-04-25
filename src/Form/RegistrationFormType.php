@@ -62,7 +62,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('centreFormation', EntityType::class, [
                 'choice_label'=>'nom',
-                'label' =>'Centre de formation : ',
+                'label' =>'Centre de formation: ',
                 'class' =>Site::class
             ])
             ->add('file', FileType::class,array(

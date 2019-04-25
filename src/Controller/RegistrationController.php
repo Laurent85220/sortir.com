@@ -21,23 +21,28 @@ class RegistrationController extends Controller
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, Authenticator $authenticator): Response
     {
+
         $user = new Utilisateur();
+        $imgpath = $user->getFile();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-
+        $user->setFile(null);
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $file */
             $file = $user->getFile();
+            if($file==null){
+                $user->setFile($imgpath);
+            }else {
+                // Génération d'un nom unique
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
 
-            // Génération d'un nom unique
-            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                // Déplacement du fichier dans le répertoire demandé
+                $file->move($this->getParameter('upload_directory'), $fileName);
 
-            // Déplacement du fichier dans le répertoire demandé
-            $file->move($this->getParameter('upload_directory'), $fileName);
-
-            // Modification du champs "File"
-            $user->setFile($fileName);
+                // Modification du champs "File"
+                $user->setFile($fileName);
+            }
             // encode the plain password
             $user->setPassword(
                 $passwordEncoder->encodePassword(

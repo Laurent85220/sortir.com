@@ -18,6 +18,24 @@ class VilleRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Ville::class);
     }
+    public function findForSearchville($search)
+    {
+        $dql = '
+            SELECT v
+            FROM App\Entity\Ville v
+            WHERE UPPER(v.nom) LIKE :nom
+        ';
+
+        return $this
+            ->getEntityManager()
+            ->createQuery($dql)
+            ->setParameter(
+                'nom',
+                '%'.strtoupper($search).'%'
+            )
+            ->getResult();
+
+    }
 
     // /**
     //  * @return Ville[] Returns an array of Ville objects

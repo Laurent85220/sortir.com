@@ -20,10 +20,11 @@ class VilleController extends Controller
     /**
      * @Route("/", name="ville_index", methods={"GET"})
      */
-    public function index(VilleRepository $villeRepository): Response
+    public function index(VilleRepository $villeRepository,Request $request): Response
     {
+        $search= $request->get('search');
         return $this->render('ville/index.html.twig', [
-            'villes' => $villeRepository->findAll(),
+            'villes' => $villeRepository->findForSearchville($search),
         ]);
     }
 
