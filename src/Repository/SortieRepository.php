@@ -71,7 +71,9 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     /**
-     * Cette fonction est appelée lorsqu'un utilisateur lance une recherche depuis la page d'accueil.
+     * Cette fonction est appelée lorsqu'un utilisateur lance une recherche depuis la page d'accueil,
+     * au travers du formulaire App\Form\RechercherType.
+     * Elle prend en paramètres un tableau des champs du formulaire et de l'utilisateur en session.
      */
     public function rechercheParFiltres($filtres, $utilisateur)
     {
@@ -109,19 +111,29 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('dateFin', $filtres['date_fin']);
         }
 
-        // filtre checkbox organisateur => 'sorties_organisees'
-        if ($filtres['sorties_organisees']) {
+        // filtre checkbox organisateur => 'organisees'
+        if ($filtres['organisees']) {
             $query
                 ->andWhere('rpf.organisateur = :organisateur')
                 ->setParameter('organisateur', $utilisateur->getId());
         }
 
-        // filtre checkbox sorties inscrit => 'mes_sorties'
+        // filtre checkbox sorties inscrit => 'inscrit'
+        if ($filtres['inscrit']) {
+            $query
+                ->andWhere(':idUtilisateur MEMBER OF rpf.participants')
+                ->setParameter('idUtilisateur', $utilisateur->getId());
+        }
 
-        // filtre checkbox sorties non-inscrit => 'sorties_en_cours'
+        // filtre checkbox sorties non-inscrit => 'non_inscrit'
+        if ($filtres['non_inscrit']) {
+            $query
+                ->andWhere(':idUtilisateur NOT MEMBER OF rpf.participants')
+                ->setParameter('idUtilisateur', $utilisateur->getId());
+        }
 
-        // filtre checkbox sorties passées => 'sorties_passees'
-        if ($filtres['sorties_passees']) {
+        // filtre checkbox sorties passées => 'passees'
+        if ($filtres['passees']) {
             $query
                 ->andWhere('rpf.etat = 5');
         }
