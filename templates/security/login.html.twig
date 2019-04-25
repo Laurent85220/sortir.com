@@ -9,34 +9,34 @@
             <div class="card-header">
                 <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
             </div>
-            <div class="card-body ">
-                <form method="post">
-                    <label for="inputEmail" class="sr-only">Email</label>
-                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Email" ><br>
-                    <label for="inputPassword" class="sr-only">Password</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" ><br>
+            <form method="post">
+                <div class="card-body ">
 
-                    <input type="hidden" name="_csrf_token"
-                           value="{{ csrf_token('authenticate') }}"
-                    >
-            </div>
-            <div class="card-footer">
-                <div class="row">
-                    <div class="col-6 d-inline">
-                        <button class="btn btn-lg btn-primary" type="submit">
-                            Connexion
-                        </button>
-                    </div>
-                    <div class="col-6 d-inline">
-                        <label>
-                            <input type="checkbox" name="_remember_me"> Se Souvenir de moi
-                        </label>
-                        <a href="{{ path('inscription') }}">S'inscrire</a>
-                        </form>
+                        <label for="inputEmail" class="sr-only">Email</label>
+                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Email" ><br>
+                        <label for="inputPassword" class="sr-only">Password</label>
+                        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" ><br>
+
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}">
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-6 d-inline">
+                            <button class="btn btn-lg btn-primary" type="submit">
+                                Connexion
+                            </button>
+                        </div>
+                        <div class="col-6 d-inline">
+                            <label>
+                                <input type="checkbox" name="_remember_me"> Se Souvenir de moi
+                            </label>
+                            <a href="{{ path('inscription') }}">S'inscrire</a>
+
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            </form>
         </div>
     </div>
 
