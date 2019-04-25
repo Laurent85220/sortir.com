@@ -1,35 +1,46 @@
-<div class="jumbotron">
-    <div class="">
-        <h5 class="">Filtrer les sorties</h5>
-    </div>
-    <div class="">
 
-        {# nouveau formulaire de recherche #}
-        {{ form_start(formRechercher) }}
-
-        {{ form_row(formRechercher.site) }}
-
-        {{ form_row(formRechercher.champ_recherche) }}
-
-        {{ form_row(formRechercher.date_debut) }}
-
-        {{ form_row(formRechercher.date_fin) }}
-
-        {{ form_row(formRechercher.organisees) }}
-
-        {{ form_row(formRechercher.inscrit) }}
-
-        {{ form_row(formRechercher.non_inscrit) }}
-
-        {{ form_row(formRechercher.passees) }}
-
-        {{ form_row(formRechercher.btn_rechercher) }}
-
-        {{ form_end(formRechercher) }}
-
-        <div>
-            <a href="{{ path('sortie_new') }}" class="btn btn-primary  justify-content-center d-none  d-sm-inline-block ">Nouvelle sortie</a>
+<div class="filtre col-md-12">
+    <div class="row">
+        <div class="card-header col-md-12 mb-3">
+            <div class="d-flex justify-content-between">
+                <h4 class="text-white">Participant : {{ app.user.pseudo }}</h4>
+                <h4 class="text-white">Filtrer les sorties</h4>
+            <p class="text-white"><b>Date du jour : </b> {{ "now"|date("d/m/Y") }}</p>
+            </div>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
 
+            {# nouveau formulaire de recherche #}
+            {{ form_start(formRechercher) }}
+
+            {{ form_row(formRechercher.site) }}
+
+            {{ form_row(formRechercher.champ_recherche) }}
+
+            {{ form_row(formRechercher.date_debut) }}
+
+            {{ form_row(formRechercher.date_fin) }}
+
+        </div>
+        <div class="col-md-4 mt-2">
+
+            {{ form_row(formRechercher.organisees) }}
+
+            {{ form_row(formRechercher.inscrit) }}
+
+            {{ form_row(formRechercher.non_inscrit) }}
+
+            {{ form_row(formRechercher.passees) }}
+<div class="text-center pt-3">
+            {{ form_row(formRechercher.btn_rechercher) }}
+</div>
+            {{ form_end(formRechercher) }}
+
+        </div>
+    </div>
+    <div>
+        <a href="{{ path('sortie_new') }}" class="btn btn-primary  justify-content-center d-none  d-sm-inline-block ">Créer une sortie</a>
     </div>
 </div>

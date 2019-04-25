@@ -49,9 +49,9 @@
                                aria-disabled="true">Se déconnecter</a>
                         </li>
                     {% if is_granted ("ROLE_ADMIN") %}
-                        <div class="dropdown mr-5">
+                        <div class="dropdown mr-5 ml-3">
                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ app.user.username }}
+                                {{ app.user.pseudo }}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href='{{ path('utilisateur_liste') }}'>Utilisateurs</a>
