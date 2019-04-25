@@ -1,15 +1,16 @@
 
 <div class="filtre col-md-12">
     <div class="row">
-        <div class="card-header col-md-12 mb-3">
+        <div class="card-header col-md-12">
             <div class="d-flex justify-content-between">
                 <h4 class="text-white">Participant : {{ app.user.pseudo }}</h4>
-                <h4 class="text-white">Filtrer les sorties</h4>
-            <p class="text-white"><b>Date du jour : </b> {{ "now"|date("d/m/Y") }}</p>
+                <p class="text-white"><b>Date du jour : </b> {{ "now"|date("d/m/Y") }}</p>
+                <div><a href="{{ path('sortie_new') }}" class="btn btn-primary  justify-content-center d-none  d-sm-inline-block ">Créer une sortie</a></div>
+                <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Filtrer les sorties</button>
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row collapse mt-3" id="collapseExample">
         <div class="col-md-8">
 
             {# nouveau formulaire de recherche #}
@@ -33,14 +34,11 @@
             {{ form_row(formRechercher.non_inscrit) }}
 
             {{ form_row(formRechercher.passees) }}
-<div class="text-center pt-3">
-            {{ form_row(formRechercher.btn_rechercher) }}
-</div>
+            <div class="text-center pt-3">
+                {{ form_row(formRechercher.btn_rechercher) }}
+            </div>
             {{ form_end(formRechercher) }}
 
         </div>
-    </div>
-    <div>
-        <a href="{{ path('sortie_new') }}" class="btn btn-primary  justify-content-center d-none  d-sm-inline-block ">Créer une sortie</a>
     </div>
 </div>
