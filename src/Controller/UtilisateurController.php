@@ -28,6 +28,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class UtilisateurController extends Controller
 {
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/", name="utilisateur_index", methods={"GET"})
      */
     public function index(UtilisateurRepository $utilisateurRepository): Response
@@ -38,6 +39,7 @@ class UtilisateurController extends Controller
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/new", name="utilisateur_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
@@ -63,6 +65,7 @@ class UtilisateurController extends Controller
 
 
     /**
+     *
      * @Route("/edition", name="utilisateur_edition", methods={"GET","POST"})
      */
     public function edition(Request $request, UserPasswordEncoderInterface $passwordEncoder,GuardAuthenticatorHandler $guardHandler, AuthenticationUtils $authenticationUtils): Response
@@ -100,7 +103,7 @@ class UtilisateurController extends Controller
 
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash("success","Votre compte a bien été modifié ");
-            return $this->redirectToRoute('utilisateur_edition', [
+            return $this->redirectToRoute('utilisateur_profil', [
                 'id' => $user->getId(),
                 'utilisateur'=> $user,
             ]);
@@ -125,6 +128,7 @@ class UtilisateurController extends Controller
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/{id}/edit", name="utilisateur_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Utilisateur $utilisateur): Response
@@ -147,6 +151,7 @@ class UtilisateurController extends Controller
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/delete{id}", name="utilisateur_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Utilisateur $utilisateur): Response

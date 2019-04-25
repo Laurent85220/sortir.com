@@ -22,6 +22,9 @@
                                 <p><b>Ville de rattachement :</b> {{ utilisateur.centreFormation.nom }}</p>
                             </div>
                             <div class="col-12 text-center mt-2">
+                                {% if app.user.id == utilisateur.id %}
+                                <a href="{{ path('utilisateur_edition') }}" class="btn btn-warning d-inline-flex">Modifier</a>
+                                {% endif %}
                                 <a href="{{ path('home') }}" class="btn btn-primary d-inline-flex">Retour</a>
                             </div>
                         </div>

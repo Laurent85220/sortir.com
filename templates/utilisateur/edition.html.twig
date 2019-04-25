@@ -6,7 +6,7 @@
         <div class="row">
             <div class="card detail col-md-8 offset-2 p-0">
                 <div  class="card-header">
-                    <h1>Mon profil</h1>
+                    <h1 class="text-center">Modifier mon profil</h1>
                 </div>
 
                 <div class="card-text mt-3 p-3">
@@ -15,13 +15,13 @@
 
                             {{ form_start(registrationForm) }}
                             <span class="form-group "  style="display: inline;" >
-                               {{ form_row(registrationForm.email) }}
 
-                            {{ form_row(registrationForm.plainPassword) }}
-                            {{ form_row(registrationForm.pseudo) }}
-                            {{ form_row(registrationForm.nom) }}
-                            {{ form_row(registrationForm.prenom) }}
-                            {{ form_row(registrationForm.telephone) }}
+                                {{ form_row(registrationForm.pseudo) }}
+                                {{ form_row(registrationForm.prenom) }}
+                                {{ form_row(registrationForm.nom) }}
+                                {{ form_row(registrationForm.telephone) }}
+                                {{ form_row(registrationForm.email) }}
+                                {{ form_row(registrationForm.plainPassword) }}
                             {{ form_row(registrationForm.ville) }}
                             {{ form_row(registrationForm.cp) }}
                             {{ form_row(registrationForm.centreFormation) }}
@@ -46,7 +46,7 @@
 
             </div>
         </div>
-    </div>
+
 {% endblock %}
 
 

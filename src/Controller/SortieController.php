@@ -26,6 +26,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends Controller
 {
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/", name="sortie_index", methods={"GET"})
      */
     public function index(SortieRepository $sortieRepository): Response
