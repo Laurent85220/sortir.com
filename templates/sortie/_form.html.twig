@@ -1,4 +1,14 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_row(form.nom) }}
+    {{ form_row(form.dateHeureDebut) }}
+    {{ form_row(form.dateLimiteInscription) }}
+    {{ form_row(form.duree) }}
+    {{ form_row(form.nbInscriptionsMax) }}
+    {{ form_row(form.infosSortie) }}
+    {{ form_row(form.lieu) }}
+<div class="text-center mt-3">
+    {{ form_widget(form.enregistrer) }}
+    {{ form_widget(form.publier) }}
+    <a href="{{ path('home') }}" class="btn btn-danger d-inline-flex">Annuler</a>
+</div>
 {{ form_end(form) }}

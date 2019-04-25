@@ -100,17 +100,22 @@ class SortieController extends Controller
     }
 
     /**
+     *
      * @Route("/{id}/edit", name="sortie_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Sortie $sortie): Response
+    public function edit(EntityManagerInterface $em,Request $request, Sortie $sortie): Response
     {
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('sortie_index', [
+            if ($form ->get('publier')->isClicked()) {
+                $etat2 = $em -> getRepository(Etat::class)->find('2');
+                $sortie->setEtat($etat2);
+                $em->flush();
+            }
+            return $this->redirectToRoute('home', [
                 'id' => $sortie->getId(),
             ]);
         }
@@ -122,6 +127,7 @@ class SortieController extends Controller
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/{id}", name="sortie_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Sortie $sortie): Response
@@ -215,6 +221,7 @@ class SortieController extends Controller
         return $this->redirectToRoute('home');
     }
     /**
+     *
      * @Route("/cancel_mail{id}", name="cancel_mail", methods={"GET","POST"})
      */
     public function annulermail(EntityManagerInterface $entityManager, Request $request, Sortie $sortie)
