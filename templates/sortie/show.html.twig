@@ -8,12 +8,12 @@
         <div class="col-sm-8 offset-sm-2">
             <div class="card detail">
                 <div class="card-header">
-                    <h2 class="text-center">Afficher une sortie</h2>
+                    <h2 class="text-center">{{ sortie.nom }}</h2>
                 </div>
                 <div class="card-body ">
                     <div class="row">
                         <div class="col-md-6  mt-5">
-                            <p class="card-text"><b>Nom de la sortie : </b>{{ sortie.nom }}</p>
+
                             <p class="card-text"><b>Date et heure de la sortie : </b> {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</p>
                             <p class="card-text"><b>Date limite d'inscription</b> {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</p>
                             <p class="card-text"><b>Durée :</b> {{ sortie.duree }}</p>
@@ -41,8 +41,8 @@
                                     <tbody>
 
                                     <tr>
-                                        <td>{{ participant.Pseudo }}</td>
-                                        <td>{{ participant.nom }}</td>
+                                        <td><a href="{{ path('utilisateur_profil', {'id': participant.id}) }}"> {{ participant.Pseudo }}</a></td>
+                                        <td>{{ participant.prenom }} {{ participant.nom }}</td>
                                     </tr>
                                     </tbody>
                                     {% endfor %}
