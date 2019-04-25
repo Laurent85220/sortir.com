@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Utilisateur;
 use App\Form\RegistrationFormType;
 use App\Security\Authenticator;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,7 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 class RegistrationController extends Controller
 {
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/inscription", name="inscription")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, Authenticator $authenticator): Response
@@ -54,15 +56,15 @@ class RegistrationController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-
+            return $this->redirectToRoute('utilisateur_liste');
             // do anything else you need here, like send an email
 
-            return $guardHandler->authenticateUserAndHandleSuccess(
+           /* return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,
                 $authenticator,
                 'main' // firewall name in security.yaml
-            );
+            );*/
         }
 
         return $this->render('registration/register.html.twig', [
