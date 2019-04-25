@@ -6,8 +6,9 @@
 
         <div class="row">
     {% for utilisateur in utilisateurs %}
+        {% if utilisateur.administrateur==false %}
               <div class="col-sm-4 mb-3">
-                  <div class="card detail" style="height: 410px;">
+                  <div class="card detail" style="height: auto;">
                     <div  class="card-header text-center">
                         <h1>{{ utilisateur.pseudo }} </h1>
                     </div>
@@ -35,6 +36,7 @@
             </div>
 
         </div>
+        {% endif %}
     {% endfor %}
     </div>
 
