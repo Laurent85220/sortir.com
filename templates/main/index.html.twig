@@ -65,17 +65,15 @@
                 </div>
             </div>
         {% else %}
-            <div class="col-sm-3 mt-4 mb-4">
+{#            <div class="col-sm-3 mt-4 mb-4">#}
+            <div class="col-md-12 mt-4 mb-4">
                 <div class="card detail">
-                    <div class="image-card d-flex justify-content-center">
-                        <img src="{{ asset('img/sortie.png') }}" class="img-fluid card-img-top" alt="idées sorties en france">
+                    <div class="card-body">
+                        <h5 class="card-title">Ooop's!</h5>
+                        <p class="card-text">
+                            Aucune sortie ne correspond aux critères!
+                        </p>
                     </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">échec de la recherche!</h5>
-                    <p class="card-text">
-                        Aucune sortie ne correspond à vos critères!
-                    </p>
                 </div>
             </div>
         {% endfor %}
