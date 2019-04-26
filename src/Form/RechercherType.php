@@ -48,29 +48,26 @@ class RechercherType extends AbstractType
             ])
             ->add('organisees', CheckboxType::class, [
                 'label'=>'Sorties dont je suis l\'organisateur / trice',
-//                'value'=>'true',
             ])
             ->add('inscrit', CheckboxType::class, [
                 'label'=>'Sorties auxquelles je suis inscrit/e',
-//                'value'=>'true',
             ])
             ->add('non_inscrit', CheckboxType::class, [
                 'label'=>'Sorties auxquelles je ne suis pas inscrit/e',
-//                'value'=>'true',
             ])
             ->add('passees', CheckboxType::class, [
                 'label'=>'Sorties passées',
-//                'value'=>'true',
             ])
-//            ->add('filtres_sorties', ChoiceType::class, [
+        // essai non concluant avec un ChoiceType
+//            ->add('radio', ChoiceType::class, [
 //                'label'=>'Filtres : ',
-//                'multiple'=>'true',
+//                'multiple'=>'false',
 //                'expanded'=>'true',
 //                'choices'=> [
-//                    'Sorties dont je suis l\'organisateur / trice'=> 'sortiesOrganisees',
-//                    'Sorties auxquelles je suis inscrit/e'=>'mesSorties',
-//                    'Sorties auxquelles je ne suis pas inscrit/e'=>'AutresSortiesEnCours',
-//                    'Sorties passées'=>'SortiesPassees'
+//                    'Sorties dont je suis l\'organisateur / trice'=> 'organisees',
+//                    'Sorties auxquelles je suis inscrit/e'=>'inscrit',
+//                    'Sorties auxquelles je ne suis pas inscrit/e'=>'non_inscrit',
+//                    'Sorties passées'=>'passees'
 //                ]
 //            ])
             ->add('btn_rechercher', SubmitType::class,[

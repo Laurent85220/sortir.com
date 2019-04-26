@@ -26,7 +26,7 @@ class MainController extends Controller
 //        $centreParDefaut = $utilisateur->getCentreFormation();
         // la page d'accueil est différente si l'on est un utilisateur identifié ou non
         if ($this->getUser()) {
-            $sorties = $sortieRepository->listeToutesSorties();
+            $sorties = $sortieRepository->listeToutesSorties($this->getUser());
         } else {
             // note: avec la fonction listeAccueilInvite, on peut limiter le nombre de résultats
             $sorties = $sortieRepository ->listeAccueilInvite();
