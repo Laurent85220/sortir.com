@@ -32,11 +32,11 @@ class RegistrationFormType extends AbstractType
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Entrer un mot de passe',
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caracteres',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
@@ -66,7 +66,8 @@ class RegistrationFormType extends AbstractType
                 'class' =>Site::class
             ])
             ->add('file', FileType::class,array(
-                'data_class'   =>null,))
+                'data_class'   =>null,
+                'label' =>'Fichier : ',))
         ;
     }
 
