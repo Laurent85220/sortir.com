@@ -66,7 +66,8 @@ class RegistrationFormType extends AbstractType
                 'class' =>Site::class
             ])
             ->add('file', FileType::class,array(
-                'data_class'   =>null,))
+                'data_class'   =>null,
+                'label' =>'Fichier : ',))
         ;
     }
 
