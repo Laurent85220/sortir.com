@@ -54,7 +54,7 @@
                     <div class="card-body d-flex justify-content-center ">
                         <a href="{{ path('home') }}" class="btn btn-primary d-flex justify-content-center mr-2">Retour</a>
                         {% if is_granted ("ROLE_USER") %}
-                        {%  if app.user.id != sortie.organisateur.id %}
+                        {%  if app.user.id != sortie.organisateur.id  and sortie.etat.id<4 %}
                             <a href="{{ path('ajout_sortie', {'id': sortie.id}) }}"class="d-flex justify-content-center mr-2{% if app.user.mesSorties.contains(sortie) %} btn btn-danger "> Se desinscrire{% else %} btn btn-success"> S'inscrire à la sortie{% endif %}</a>
                         {% endif %}
                         {% endif %}
